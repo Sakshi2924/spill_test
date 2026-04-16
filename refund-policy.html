@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refund Policy - Spill</title>
+  <style>
+    @font-face { font-family: 'Chomp'; src: url('ChompRegular-V4Dge.otf') format('opentype'); }
+    @font-face { font-family: 'Chomp Oblique'; src: url('ChompOblique-JpByK.ttf') format('truetype'); font-style: italic; }
+    :root { --yellow: #ffca26; --cream: #f3e8cc; --orange: #f86015; --red: #d42518; --green: #19532b; --lime: #9abc04; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Chomp', sans-serif; background: var(--cream); color: var(--green); overflow-x: hidden; }
+    .page-header { background: var(--red); padding: 120px 40px 80px; text-align: center; position: relative; overflow: hidden; }
+    .page-header h1 { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: clamp(2.5rem, 8vw, 6rem); color: var(--yellow); position: relative; z-index: 2; }
+    .page-header .bg-accent { position: absolute; font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 14rem; color: rgba(255,202,38,0.06); bottom: -30px; right: -20px; pointer-events: none; }
+    .page-header::after { content: ''; position: absolute; bottom: -80px; left: 0; width: 100%; height: 160px; background: linear-gradient(to bottom, var(--red), var(--cream)); pointer-events: none; }
+    nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: var(--red); }
+    nav a.logo-nav { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 1.8rem; color: var(--yellow); text-decoration: none; }
+    nav a.back-link { font-family: 'Chomp', sans-serif; font-size: 0.85rem; color: var(--cream); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
+    nav a.back-link:hover { opacity: 1; }
+    .content { max-width: 800px; margin: 0 auto; padding: 80px 40px 100px; }
+    .content h2 { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 1.6rem; color: var(--red); margin: 40px 0 15px; }
+    .content p { font-family: 'Chomp', sans-serif; font-size: 0.9rem; line-height: 1.7; color: var(--green); margin-bottom: 15px; opacity: 0.85; }
+    footer { background: var(--green); padding: 30px 40px; text-align: center; }
+    footer p { font-family: 'Chomp', sans-serif; font-size: 0.75rem; color: var(--cream); opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="logo-nav">Spill</a>
+    <a href="index.html" class="back-link">&larr; Back To Home</a>
+  </nav>
+  <div class="page-header">
+    <h1>Refund Policy</h1>
+    <span class="bg-accent">Refunds</span>
+  </div>
+  <div class="content">
+    <h2>Eligibility</h2>
+    <p>Refunds Are Available For Unopened Products Returned Within 7 Days Of Delivery. The Item Must Be In Its Original Packaging.</p>
+    <h2>Process</h2>
+    <p>To Initiate A Refund, Email Us With Your Order Number And Reason. We'll Get Back To You Within 48 Hours.</p>
+    <h2>Timeline</h2>
+    <p>Once We Receive And Inspect Your Return, Refunds Are Processed Within 5-7 Business Days To Your Original Payment Method.</p>
+    <h2>Exceptions</h2>
+    <p>Opened Or Consumed Products Cannot Be Refunded Unless They Arrived Damaged Or Defective.</p>
+    <h2>Need Help?</h2>
+    <p>Reach Out At <a href="mailto:hello@spilltea.com" style="color: var(--orange);">Hello@Spilltea.Com</a></p>
+  </div>
+  <footer><p>&copy; 2026 Spill Tea Co. All Rights Reserved.</p></footer>
+</body>
+</html>

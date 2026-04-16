@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - Spill</title>
+  <style>
+    @font-face { font-family: 'Chomp'; src: url('ChompRegular-V4Dge.otf') format('opentype'); }
+    @font-face { font-family: 'Chomp Oblique'; src: url('ChompOblique-JpByK.ttf') format('truetype'); font-style: italic; }
+    :root { --yellow: #ffca26; --cream: #f3e8cc; --orange: #f86015; --red: #d42518; --green: #19532b; --lime: #9abc04; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Chomp', sans-serif; background: var(--cream); color: var(--green); overflow-x: hidden; }
+    .page-header { background: var(--lime); padding: 120px 40px 80px; text-align: center; position: relative; overflow: hidden; }
+    .page-header h1 { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: clamp(2.5rem, 8vw, 6rem); color: var(--green); position: relative; z-index: 2; }
+    .page-header .bg-accent { position: absolute; font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 14rem; color: rgba(25,83,43,0.06); bottom: -30px; left: -20px; pointer-events: none; }
+    .page-header::after { content: ''; position: absolute; bottom: -80px; left: 0; width: 100%; height: 160px; background: linear-gradient(to bottom, var(--lime), var(--cream)); pointer-events: none; }
+    nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: var(--lime); }
+    nav a.logo-nav { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 1.8rem; color: var(--green); text-decoration: none; }
+    nav a.back-link { font-family: 'Chomp', sans-serif; font-size: 0.85rem; color: var(--green); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
+    nav a.back-link:hover { opacity: 1; }
+    .content { max-width: 800px; margin: 0 auto; padding: 80px 40px 100px; text-align: center; }
+    .content h2 { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 1.6rem; color: var(--green); margin: 40px 0 15px; }
+    .content p { font-family: 'Chomp', sans-serif; font-size: 0.9rem; line-height: 1.7; color: var(--green); margin-bottom: 15px; opacity: 0.85; }
+    .contact-card { background: var(--green); border-radius: 24px; padding: 60px 40px; margin-top: 40px; display: inline-block; text-align: center; box-shadow: 6px 6px 0 var(--yellow); transition: transform 0.3s, box-shadow 0.3s; }
+    .contact-card:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--yellow); }
+    .contact-card h3 { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 2rem; color: var(--yellow); margin-bottom: 20px; }
+    .contact-card p { color: var(--cream); opacity: 0.8; }
+    .contact-card a { color: var(--yellow); text-decoration: none; font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 1.2rem; transition: color 0.3s; }
+    .contact-card a:hover { color: var(--lime); }
+    footer { background: var(--green); padding: 30px 40px; text-align: center; }
+    footer p { font-family: 'Chomp', sans-serif; font-size: 0.75rem; color: var(--cream); opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="logo-nav">Spill</a>
+    <a href="index.html" class="back-link">&larr; Back To Home</a>
+  </nav>
+  <div class="page-header">
+    <h1>Contact</h1>
+    <span class="bg-accent">Talk</span>
+  </div>
+  <div class="content">
+    <h2>Let's Chat</h2>
+    <p>Got A Question, Idea, Or Just Want To Talk Tea? We're All Ears.</p>
+
+    <div class="contact-card">
+      <h3>Drop Us A Line</h3>
+      <p>Email</p>
+      <a href="mailto:hello@spilltea.com">Hello@Spilltea.Com</a>
+      <br><br>
+      <p>We Typically Respond Within 24 Hours</p>
+    </div>
+  </div>
+  <footer><p>&copy; 2026 Spill Tea Co. All Rights Reserved.</p></footer>
+</body>
+</html>

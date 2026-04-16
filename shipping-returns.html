@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shipping & Returns - Spill</title>
+  <style>
+    @font-face { font-family: 'Chomp'; src: url('ChompRegular-V4Dge.otf') format('opentype'); }
+    @font-face { font-family: 'Chomp Oblique'; src: url('ChompOblique-JpByK.ttf') format('truetype'); font-style: italic; }
+    :root { --yellow: #ffca26; --cream: #f3e8cc; --orange: #f86015; --red: #d42518; --green: #19532b; --lime: #9abc04; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Chomp', sans-serif; background: var(--cream); color: var(--green); overflow-x: hidden; }
+    .page-header { background: var(--orange); padding: 120px 40px 80px; text-align: center; position: relative; overflow: hidden; }
+    .page-header h1 { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: clamp(2.5rem, 8vw, 5rem); color: var(--cream); position: relative; z-index: 2; }
+    .page-header .bg-accent { position: absolute; font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 12rem; color: rgba(243,232,204,0.08); bottom: -30px; left: -20px; pointer-events: none; }
+    .page-header::after { content: ''; position: absolute; bottom: -80px; left: 0; width: 100%; height: 160px; background: linear-gradient(to bottom, var(--orange), var(--cream)); pointer-events: none; }
+    nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: var(--orange); }
+    nav a.logo-nav { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 1.8rem; color: var(--yellow); text-decoration: none; }
+    nav a.back-link { font-family: 'Chomp', sans-serif; font-size: 0.85rem; color: var(--cream); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
+    nav a.back-link:hover { opacity: 1; }
+    .content { max-width: 800px; margin: 0 auto; padding: 80px 40px 100px; }
+    .content h2 { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 1.6rem; color: var(--orange); margin: 40px 0 15px; }
+    .content p { font-family: 'Chomp', sans-serif; font-size: 0.9rem; line-height: 1.7; color: var(--green); margin-bottom: 15px; opacity: 0.85; }
+    footer { background: var(--green); padding: 30px 40px; text-align: center; }
+    footer p { font-family: 'Chomp', sans-serif; font-size: 0.75rem; color: var(--cream); opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="logo-nav">Spill</a>
+    <a href="index.html" class="back-link">&larr; Back To Home</a>
+  </nav>
+  <div class="page-header">
+    <h1>Shipping & Returns</h1>
+    <span class="bg-accent">Ship It</span>
+  </div>
+  <div class="content">
+    <h2>Shipping</h2>
+    <p>We Ship Across India. Orders Are Dispatched Within 2-3 Business Days. Standard Delivery Takes 5-7 Business Days Depending On Your Location.</p>
+    <h2>Tracking</h2>
+    <p>Once Your Order Ships, You'll Receive A Tracking Link Via Email So You Can Follow Your Tea On Its Journey.</p>
+    <h2>Returns</h2>
+    <p>Not Vibing With Your Order? You Can Initiate A Return Within 7 Days Of Delivery, Provided The Product Is Unopened And In Its Original Packaging.</p>
+    <h2>Damaged Goods</h2>
+    <p>If Your Order Arrives Damaged, Snap A Photo And Email Us. We'll Sort It Out Faster Than You Can Brew A Cup.</p>
+    <h2>Questions?</h2>
+    <p>Hit Us Up At <a href="mailto:hello@spilltea.com" style="color: var(--red);">Hello@Spilltea.Com</a></p>
+  </div>
+  <footer><p>&copy; 2026 Spill Tea Co. All Rights Reserved.</p></footer>
+</body>
+</html>
