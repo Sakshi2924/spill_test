@@ -122,25 +122,29 @@
     gsap.to('#ctaSub', { scrollTrigger: { trigger: '.cta-section', start: 'top 60%', end: 'top 30%', scrub: 1 }, opacity: 1 });
     gsap.to('#ctaBtn', { scrollTrigger: { trigger: '.cta-section', start: 'top 50%', end: 'top 25%', scrub: 1 }, opacity: 1 });
 
-    // Horizontal pinned flavors scroll — desktop only
+    // Horizontal pinned flavors scroll — desktop only.
+    // Pin the .flavors-sticky element; GSAP's pinSpacing adds the scroll
+    // distance automatically so the section ends as soon as the last card
+    // reaches the left edge.
     var mm = matchMedia('(min-width: 901px)');
     var flavorScroll;
 
     function buildFlavorScroll() {
       var track = document.getElementById('flavorsTrack');
-      var section = document.querySelector('.flavors-section');
-      if (!track || !section) return;
-      var overflow = track.scrollWidth - window.innerWidth + 80;
-      section.style.height = 'calc(100vh + ' + Math.max(overflow, 0) + 'px + 40vh)';
+      var pinTarget = document.querySelector('.flavors-sticky');
+      if (!track || !pinTarget) return;
+      var overflow = Math.max(0, track.scrollWidth - window.innerWidth);
+      if (overflow === 0) return;
       flavorScroll = gsap.to(track, {
         x: -overflow,
         ease: 'none',
         scrollTrigger: {
-          trigger: section,
+          trigger: pinTarget,
           start: 'top top',
-          end: function () { return '+=' + overflow; },
-          scrub: 1,
-          pin: '.flavors-sticky',
+          end: '+=' + overflow,
+          scrub: 0.5,
+          pin: pinTarget,
+          pinSpacing: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
         }
@@ -153,10 +157,8 @@
         flavorScroll.kill();
         flavorScroll = null;
       }
-      var section = document.querySelector('.flavors-section');
-      if (section) section.style.height = '';
       var track = document.getElementById('flavorsTrack');
-      if (track) track.style.transform = '';
+      if (track) gsap.set(track, { clearProps: 'transform' });
     }
 
     function apply() {
