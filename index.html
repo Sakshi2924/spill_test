@@ -217,14 +217,52 @@
       gap: 24px; padding: 40px;
     }
     .mobile-menu.open { display: flex; }
-    .mobile-menu a {
+    .mobile-menu > a,
+    .mobile-menu summary {
       font-family: 'Chomp Oblique', serif; font-style: italic;
       font-size: clamp(1.8rem, 6vw, 2.5rem);
       color: var(--yellow); text-decoration: none;
       padding-right: 0.15em;
       transition: color .3s, transform .3s;
+      cursor: pointer;
+      text-align: center;
+      list-style: none;
     }
-    .mobile-menu a:hover { color: var(--orange); transform: rotate(-3deg) scale(1.05); }
+    .mobile-menu summary::-webkit-details-marker,
+    .mobile-menu summary::marker { display: none; content: ''; }
+    .mobile-menu > a:hover,
+    .mobile-menu summary:hover { color: var(--orange); transform: rotate(-3deg) scale(1.05); }
+
+    .mobile-menu .mm-group { text-align: center; width: 100%; max-width: 380px; }
+    .mobile-menu .mm-group[open] > summary { color: var(--orange); }
+    .mobile-menu .mm-group > summary::after {
+      content: ' ▾';
+      font-size: 0.7em;
+      opacity: 0.7;
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+    .mobile-menu .mm-group[open] > summary::after { transform: rotate(180deg); }
+    .mobile-menu .mm-sub {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      padding-bottom: 4px;
+    }
+    .mobile-menu .mm-sub a {
+      font-family: 'Chomp', system-ui, sans-serif;
+      font-style: normal;
+      font-size: clamp(1rem, 3.2vw, 1.2rem);
+      color: var(--cream);
+      text-decoration: none;
+      letter-spacing: 1.5px;
+      padding-right: 0;
+      opacity: 0.85;
+      transition: opacity 0.3s, color 0.3s;
+    }
+    .mobile-menu .mm-sub a:hover { opacity: 1; color: var(--yellow); transform: none; }
 
     /* ---- HERO ---- */
     .hero {
