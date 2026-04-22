@@ -1,5 +1,6 @@
-// Spill — landing page motion + interactions
-// Safe under strict CSP: no inline event handlers, no eval, no new Function.
+// Spill — landing-page motion.
+// Nav / mobile menu live in assets/nav.js (shared by every page).
+// Cookie consent lives in assets/cookie-consent.js.
 
 (function () {
   'use strict';
@@ -43,26 +44,6 @@
     });
   }, { passive: true });
 
-  // Hamburger
-  var hamburger = document.getElementById('hamburger');
-  var mobileMenu = document.getElementById('mobileMenu');
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', function () {
-      var open = mobileMenu.classList.toggle('open');
-      hamburger.classList.toggle('active', open);
-      hamburger.setAttribute('aria-expanded', String(open));
-      document.body.style.overflow = open ? 'hidden' : '';
-    });
-    mobileMenu.querySelectorAll('[data-close]').forEach(function (a) {
-      a.addEventListener('click', function () {
-        mobileMenu.classList.remove('open');
-        hamburger.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
-  }
-
   // Hero mouse tilt (hover devices only)
   if (matchMedia('(hover: hover)').matches) {
     var heroLogo = document.getElementById('heroLogo');
@@ -88,7 +69,6 @@
     gsap.to('#heroTagline', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.6 });
   }
 
-  // ScrollTrigger wiring after libs load
   window.addEventListener('load', function () {
     if (!window.gsap || !window.ScrollTrigger) return;
     gsap.registerPlugin(ScrollTrigger);
@@ -96,36 +76,35 @@
     gsap.to('.hero-bg-text.top',    { scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }, x: 200 });
     gsap.to('.hero-bg-text.bottom', { scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }, x: -200 });
 
-    gsap.utils.toArray('.title-word').forEach(function (word) {
+    // Play-once entrance for every text reveal. Previously used scrub, which
+    // could leave text half-faded if you scrolled through quickly.
+    gsap.utils.toArray('.title-word').forEach(function (word, i) {
       gsap.to(word, {
-        scrollTrigger: { trigger: word, start: 'top 85%', end: 'top 60%', scrub: 1 },
-        opacity: 1, y: 0, rotation: 0, ease: 'power3.out'
+        scrollTrigger: { trigger: word, start: 'top 88%', toggleActions: 'play none none none' },
+        duration: 0.75, opacity: 1, y: 0, rotation: 0, ease: 'power3.out', delay: i * 0.08,
       });
     });
 
     gsap.utils.toArray('.brew-card').forEach(function (card, i) {
       var rot = [-3, 2, -2][i % 3];
       gsap.to(card, {
-        scrollTrigger: { trigger: card, start: 'top 85%', end: 'top 55%', scrub: 1 },
-        opacity: 1, y: 0, rotation: rot, ease: 'power2.out'
+        scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' },
+        duration: 0.85, opacity: 1, y: 0, rotation: rot, ease: 'power2.out', delay: i * 0.1,
       });
     });
 
-    gsap.utils.toArray('.statement-line').forEach(function (line) {
+    gsap.utils.toArray('.statement-line').forEach(function (line, i) {
       gsap.to(line, {
-        scrollTrigger: { trigger: line, start: 'top 85%', end: 'top 55%', scrub: 1 },
-        opacity: 1, x: 0, ease: 'power3.out'
+        scrollTrigger: { trigger: line, start: 'top 85%', toggleActions: 'play none none none' },
+        duration: 0.85, opacity: 1, x: 0, ease: 'power3.out', delay: i * 0.1,
       });
     });
 
-    gsap.to('#ctaBig', { scrollTrigger: { trigger: '.cta-section', start: 'top 70%', end: 'top 30%', scrub: 1 }, opacity: 1, scale: 1, ease: 'power3.out' });
-    gsap.to('#ctaSub', { scrollTrigger: { trigger: '.cta-section', start: 'top 60%', end: 'top 30%', scrub: 1 }, opacity: 1 });
-    gsap.to('#ctaBtn', { scrollTrigger: { trigger: '.cta-section', start: 'top 50%', end: 'top 25%', scrub: 1 }, opacity: 1 });
+    gsap.to('#ctaBig', { scrollTrigger: { trigger: '.cta-section', start: 'top 70%', toggleActions: 'play none none none' }, duration: 0.9, opacity: 1, scale: 1, ease: 'power3.out' });
+    gsap.to('#ctaSub', { scrollTrigger: { trigger: '.cta-section', start: 'top 60%', toggleActions: 'play none none none' }, duration: 0.8, opacity: 1 });
+    gsap.to('#ctaBtn', { scrollTrigger: { trigger: '.cta-section', start: 'top 55%', toggleActions: 'play none none none' }, duration: 0.8, opacity: 1 });
 
-    // Horizontal pinned flavors scroll — desktop only.
-    // Pin the .flavors-sticky element; GSAP's pinSpacing adds the scroll
-    // distance automatically so the section ends as soon as the last card
-    // reaches the left edge.
+    // Horizontal pinned flavours scroll — desktop only.
     var mm = matchMedia('(min-width: 901px)');
     var flavorScroll;
 
