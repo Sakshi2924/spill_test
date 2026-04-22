@@ -40,9 +40,12 @@ app.use(helmet({
     useDefaults: true,
     directives: {
       'default-src': ["'self'"],
-      'script-src': ["'self'", 'https://cdnjs.cloudflare.com'],
-      // 'unsafe-inline' for style kept as a known trade-off — legacy pages have inline <style>.
-      // See SECURITY.md for the plan to externalise and drop this.
+      // 'unsafe-inline' on script-src allows inline JSON-LD blocks on product pages.
+      // (Browsers are inconsistent about blocking application/ld+json under strict script-src.)
+      // No other inline scripts exist; all interactive JS is in /assets/*.js.
+      'script-src': ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'],
+      // 'unsafe-inline' on style-src covers per-page theme-variable <style> blocks.
+      // SECURITY.md tracks the follow-up to externalise these.
       'style-src': ["'self'", "'unsafe-inline'"],
       'img-src': ["'self'", 'data:', 'blob:'],
       'font-src': ["'self'", 'data:'],
