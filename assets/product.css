@@ -129,19 +129,22 @@ nav[aria-label="Primary"] .nav-links a:hover::after { width: 100%; }
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   gap: clamp(32px, 5vw, 80px);
-  align-items: start;
+  /* stretch: both columns match the taller one's height so the image
+     reaches all the way down to the quantity / CTA block on the right */
+  align-items: stretch;
   position: relative;
 }
 
-/* Gallery (left column) — scrolls naturally so it doesn't stack under the fixed nav */
+/* Gallery (left column) — stretches to match the info column's height */
 .gallery {
   display: grid;
   grid-template-columns: 84px 1fr;
   gap: 20px;
-  align-self: start;
+  align-self: stretch;
 }
 .thumbs {
   display: flex; flex-direction: column; gap: 14px;
+  align-self: start; /* keep thumbs stacked at top even when gallery is tall */
 }
 .thumb {
   width: 84px; height: 84px;
@@ -160,9 +163,12 @@ nav[aria-label="Primary"] .nav-links a:hover::after { width: 100%; }
   background: var(--theme-soft);
   border-radius: 28px;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
-  max-height: min(58vh, 520px);
-  margin: 0 auto;
+  /* fills the grid row so it aligns with the bottom of the info column
+     (quantity stepper / add-to-cart). min-height keeps it usable on
+     extra-tall content, max-height keeps it reasonable on huge viewports. */
+  height: 100%;
+  min-height: 460px;
+  max-height: 820px;
   width: 100%;
   position: relative;
   box-shadow: 0 18px 40px rgba(0,0,0,0.08);
