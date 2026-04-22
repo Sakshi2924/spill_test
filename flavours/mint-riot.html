@@ -6,12 +6,12 @@
   <meta name="description" content="Mint Riot — cool, crisp, unhinged. Green tea with wild mint by Spill.">
   <meta name="theme-color" content="#19532b">
   <title>Mint Riot — Spill</title>
-  <link rel="canonical" href="https://spilltea.com/flavors/mint-riot.html">
+  <link rel="canonical" href="https://spilltea.com/flavours/mint-riot.html">
   <meta property="og:type" content="product">
   <meta property="og:site_name" content="Spill">
   <meta property="og:title" content="Mint Riot — Spill">
   <meta property="og:description" content="Himalayan green tea pressed with fresh peppermint and spearmint.">
-  <meta property="og:url" content="https://spilltea.com/flavors/mint-riot.html">
+  <meta property="og:url" content="https://spilltea.com/flavours/mint-riot.html">
   <meta property="og:image" content="https://spilltea.com/main%20images/5.png">
   <meta property="product:price:amount" content="399">
   <meta property="product:price:currency" content="INR">
@@ -19,9 +19,13 @@
   <meta name="twitter:title" content="Mint Riot — Spill">
   <meta name="twitter:description" content="Cool, crisp, unhinged.">
   <meta name="twitter:image" content="https://spilltea.com/main%20images/5.png">
-  <link rel="icon" href="../Spill.png" type="image/png">
+  <link rel="icon" type="image/png" href="/Spill.png">
+  <link rel="apple-touch-icon" href="/Spill.png">
+  <link rel="shortcut icon" href="/Spill.png">
+  <link rel="stylesheet" href="../assets/inner.css">
   <link rel="stylesheet" href="../assets/product.css">
   <link rel="stylesheet" href="../assets/cookie-consent.css">
+  <script src="../assets/nav.js" defer></script>
   <script src="../assets/cookie-consent.js" defer></script>
   <script type="application/ld+json">
   {
@@ -38,7 +42,7 @@
     ],
     "offers": {
       "@type": "Offer",
-      "url": "https://spilltea.com/flavors/mint-riot.html",
+      "url": "https://spilltea.com/flavours/mint-riot.html",
       "priceCurrency": "INR",
       "price": "399",
       "availability": "https://schema.org/InStock",
@@ -57,19 +61,61 @@
 </head>
 <body>
 
-  <nav aria-label="Primary">
-    <a href="../index.html" class="logo-nav">Spill</a>
-    <div class="nav-right">
-      <a href="../index.html" class="back-link">&larr; All flavors</a>
-      <a href="../contact.html" class="cart-link">Contact</a>
-    </div>
+    <nav aria-label="Primary">
+    <a href="/" class="logo-nav">Spill</a>
+    <ul class="nav-links">
+      <li><a href="/#brew">Our Brews</a></li>
+      <li class="has-dropdown">
+        <a href="/#flavours" class="nav-parent" aria-haspopup="true" aria-expanded="false">Flavours <span class="caret" aria-hidden="true">▾</span></a>
+        <ul class="dropdown" aria-label="Flavours">
+          <li><a href="/flavours/masala-mayhem.html">Masala Mayhem</a></li>
+          <li><a href="/flavours/mint-riot.html">Mint Riot</a></li>
+          <li><a href="/flavours/ginger-snap.html">Ginger Snap</a></li>
+          <li><a href="/flavours/berry-burst.html">Berry Burst</a></li>
+          <li><a href="/flavours/classic-chaos.html">Classic Chaos</a></li>
+        </ul>
+      </li>
+      <li><a href="/contact.html">Contact</a></li>
+      <li class="has-dropdown">
+        <a href="#" class="nav-parent" aria-haspopup="true" aria-expanded="false">Policies <span class="caret" aria-hidden="true">▾</span></a>
+        <ul class="dropdown" aria-label="Policies">
+          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="/shipping-returns.html">Shipping &amp; Returns</a></li>
+          <li><a href="/refund-policy.html">Refund Policy</a></li>
+          <li><a href="/terms.html">Terms</a></li>
+        </ul>
+      </li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="../index.html">Home</a> · <a href="../index.html#flavors">Flavors</a> · Mint Riot
-  </nav>
+    <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Main menu">
+    <a href="/#brew" data-close>Our Brews</a>
+    <details class="mm-group">
+      <summary>Flavours</summary>
+      <div class="mm-sub">
+        <a href="/flavours/masala-mayhem.html" data-close>Masala Mayhem</a>
+        <a href="/flavours/mint-riot.html" data-close>Mint Riot</a>
+        <a href="/flavours/ginger-snap.html" data-close>Ginger Snap</a>
+        <a href="/flavours/berry-burst.html" data-close>Berry Burst</a>
+        <a href="/flavours/classic-chaos.html" data-close>Classic Chaos</a>
+      </div>
+    </details>
+    <a href="/contact.html" data-close>Contact</a>
+    <details class="mm-group">
+      <summary>Policies</summary>
+      <div class="mm-sub">
+        <a href="/privacy-policy.html" data-close>Privacy Policy</a>
+        <a href="/shipping-returns.html" data-close>Shipping &amp; Returns</a>
+        <a href="/refund-policy.html" data-close>Refund Policy</a>
+        <a href="/terms.html" data-close>Terms</a>
+      </div>
+    </details>
+  </div>
 
-  <section class="product-hero">
+<section class="product-hero">
     <div class="gallery">
       <div class="thumbs" id="thumbs">
         <button class="thumb active" data-img="../main%20images/5.png" aria-label="View image 1"><img src="../main%20images/5.png" alt=""></button>
@@ -217,33 +263,44 @@
     </div>
   </section>
 
-  <footer class="site-footer">
-    <div class="footer-top">
-      <div>
+    <footer class="site-footer" id="footer-policies">
+    <div class="footer-bg-text" aria-hidden="true">Spill</div>
+    <div class="footer-content">
+      <div class="footer-brand">
         <h2>Spill</h2>
-        <p>Tea that&apos;s bold, chaotic and unapologetically loud. We don&apos;t do boring.</p>
+        <p>Tea that&apos;s bold, chaotic, and unapologetically loud. We don&apos;t do boring.</p>
       </div>
-      <div>
-        <h4>Shop</h4>
+      <div class="footer-links">
+        <h4>Explore</h4>
         <ul>
-          <li><a href="masala-mayhem.html">Masala Mayhem</a></li>
-          <li><a href="mint-riot.html">Mint Riot</a></li>
-          <li><a href="ginger-snap.html">Ginger Snap</a></li>
-          <li><a href="berry-burst.html">Berry Burst</a></li>
-          <li><a href="classic-chaos.html">Classic Chaos</a></li>
+          <li><a href="/#brew">Our Brews</a></li>
+          <li><a href="/#flavours">Flavours</a></li>
+          <li><a href="/contact.html">Contact</a></li>
         </ul>
       </div>
-      <div>
-        <h4>Company</h4>
+      <div class="footer-links">
+        <h4>Shop</h4>
         <ul>
-          <li><a href="../contact.html">Contact</a></li>
-          <li><a href="../privacy-policy.html">Privacy</a></li>
-          <li><a href="../shipping-returns.html">Shipping</a></li>
-          <li><a href="../refund-policy.html">Refunds</a></li>
+          <li><a href="/flavours/masala-mayhem.html">Masala Mayhem</a></li>
+          <li><a href="/flavours/mint-riot.html">Mint Riot</a></li>
+          <li><a href="/flavours/ginger-snap.html">Ginger Snap</a></li>
+          <li><a href="/flavours/berry-burst.html">Berry Burst</a></li>
+          <li><a href="/flavours/classic-chaos.html">Classic Chaos</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Policies</h4>
+        <ul>
+          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="/shipping-returns.html">Shipping &amp; Returns</a></li>
+          <li><a href="/refund-policy.html">Refund Policy</a></li>
+          <li><a href="/terms.html">Terms</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">&copy; 2026 Spill Tea Co. All rights reserved.</div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Spill Tea Co. All rights reserved.</p>
+    </div>
   </footer>
 
   <script src="../assets/product.js" defer></script>

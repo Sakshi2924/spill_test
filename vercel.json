@@ -45,6 +45,9 @@
     { "source": "/admin/:path*",       "destination": "/admin-unavailable.html", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/api/contact", "destination": "/api/contact" }
+    { "source": "/favicon.ico",                   "destination": "/Spill.png" },
+    { "source": "/apple-touch-icon.png",          "destination": "/Spill.png" },
+    { "source": "/apple-touch-icon-precomposed.png", "destination": "/Spill.png" },
+    { "source": "/api/contact",                   "destination": "/api/contact" }
   ]
 }
