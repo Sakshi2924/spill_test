@@ -10,7 +10,7 @@ function toast(msg, isError = false) {
   t.classList.toggle('error', isError);
   t.classList.add('show');
   clearTimeout(toast._t);
-  toast._t = setTimeout(() => t.classList.remove('show'), 2200);
+  toast._t = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
 async function api(path, opts = {}) {
@@ -22,6 +22,11 @@ async function api(path, opts = {}) {
     throw err;
   }
   return data;
+}
+
+function escape(s) {
+  return String(s ?? '').replace(/[&<>"']/g, ch =>
+    ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[ch]));
 }
 
 // --- TABS ---
@@ -41,11 +46,6 @@ document.getElementById('logout').addEventListener('click', async () => {
   } catch {}
   location.href = '/admin/login';
 });
-
-function escape(s) {
-  return String(s ?? '').replace(/[&<>"']/g, ch =>
-    ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[ch]));
-}
 
 // --- FLAVORS PANEL ---
 async function renderFlavors(data) {
@@ -68,14 +68,7 @@ async function renderFlavors(data) {
       <textarea data-field="short" maxlength="600">${escape(f.short || '')}</textarea>
 
       <label>Images (${(f.images||[]).length})</label>
-      <div class="images" data-images>
-        ${(f.images||[]).map((src, i) => `
-          <div class="img-chip" data-idx="${i}">
-            <img src="${escape(src)}" alt="">
-            <button class="rm" data-rm="${i}" aria-label="Remove">×</button>
-          </div>
-        `).join('')}
-      </div>
+      <div class="images" data-images></div>
       <div class="upload-zone" data-upload>Click or drop an image to add.</div>
       <input type="file" data-filepick accept="image/*" hidden>
 
@@ -131,10 +124,8 @@ function wireFlavorCard(card, data) {
       const fd = new FormData();
       fd.append('file', file);
       const res = await fetch(API + '/upload', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: { 'X-Requested-With': 'fetch' },
-        body: fd,
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'X-Requested-With': 'fetch' }, body: fd,
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Upload failed');
@@ -154,10 +145,7 @@ function wireFlavorCard(card, data) {
         else if (el.type === 'number') patch[k] = Number(el.value);
         else patch[k] = el.value;
       });
-      await api('/flavors/' + encodeURIComponent(slug), {
-        method: 'PUT',
-        body: JSON.stringify(patch),
-      });
+      await api('/flavors/' + encodeURIComponent(slug), { method: 'PUT', body: JSON.stringify(patch) });
       toast('Saved');
     } catch (e) { toast(e.message, true); }
     finally { ev.target.disabled = false; }
@@ -189,10 +177,7 @@ async function renderPages(data) {
           title: card.querySelector('[data-field=title]').value,
           body:  card.querySelector('[data-field=body]').value,
         };
-        await api('/pages/' + encodeURIComponent(card.dataset.page), {
-          method: 'PUT',
-          body: JSON.stringify(patch),
-        });
+        await api('/pages/' + encodeURIComponent(card.dataset.page), { method: 'PUT', body: JSON.stringify(patch) });
         toast('Saved');
       } catch (e) { toast(e.message, true); }
       finally { ev.target.disabled = false; }
@@ -234,10 +219,8 @@ async function renderPages(data) {
       const fd = new FormData();
       fd.append('file', file);
       const res = await fetch(API + '/upload', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: { 'X-Requested-With': 'fetch' },
-        body: fd,
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'X-Requested-With': 'fetch' }, body: fd,
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Upload failed');
@@ -248,6 +231,62 @@ async function renderPages(data) {
   }
 })();
 
+// --- SECURITY / 2FA PANEL ---
+async function renderSecurity(me) {
+  const status = document.getElementById('twofaStatus');
+  const enabledBox = document.getElementById('twofaEnabled');
+  const disabledBox = document.getElementById('twofaDisabled');
+  const enrollBox = document.getElementById('twofaEnroll');
+
+  function set(state) {
+    enabledBox.style.display = state === 'enabled' ? '' : 'none';
+    disabledBox.style.display = state === 'disabled' ? '' : 'none';
+    enrollBox.style.display = state === 'enrolling' ? '' : 'none';
+    status.textContent = state === 'enabled'
+      ? 'You are protected by an authenticator app.'
+      : 'Add a second factor to harden your account.';
+  }
+  set(me.user.has2fa ? 'enabled' : 'disabled');
+
+  document.getElementById('enroll2fa').addEventListener('click', async () => {
+    try {
+      const d = await api('/2fa/enroll-start', { method: 'POST' });
+      document.getElementById('enrollSecret').textContent = d.secret;
+      document.getElementById('enrollUri').textContent = d.uri;
+      set('enrolling');
+    } catch (e) { toast(e.message, true); }
+  });
+
+  document.getElementById('cancel2fa').addEventListener('click', () => {
+    document.getElementById('enrollCode').value = '';
+    set('disabled');
+  });
+
+  document.getElementById('confirm2fa').addEventListener('click', async (ev) => {
+    const code = document.getElementById('enrollCode').value.trim();
+    ev.target.disabled = true;
+    try {
+      await api('/2fa/enroll-confirm', { method: 'POST', body: JSON.stringify({ code }) });
+      toast('2FA enabled');
+      set('enabled');
+      document.getElementById('enrollCode').value = '';
+    } catch (e) { toast(e.message, true); }
+    finally { ev.target.disabled = false; }
+  });
+
+  document.getElementById('disable2fa').addEventListener('click', async (ev) => {
+    const code = document.getElementById('disableCode').value.trim();
+    ev.target.disabled = true;
+    try {
+      await api('/2fa/disable', { method: 'POST', body: JSON.stringify({ code }) });
+      toast('2FA disabled');
+      set('disabled');
+      document.getElementById('disableCode').value = '';
+    } catch (e) { toast(e.message, true); }
+    finally { ev.target.disabled = false; }
+  });
+}
+
 // --- INIT ---
 (async function init() {
   try {
@@ -256,6 +295,7 @@ async function renderPages(data) {
     const content = await api('/content');
     await renderFlavors(content);
     await renderPages(content);
+    await renderSecurity(me);
   } catch (e) {
     if (e.status === 401) location.href = '/admin/login';
     else toast(e.message, true);
