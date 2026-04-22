@@ -13,6 +13,12 @@ router.use(rateLimit({
   legacyHeaders: false,
 }));
 
+router.get('/flavours', (req, res) => {
+  const c = storage.read();
+  res.json(c.flavors.filter(f => f.published));
+});
+
+// Legacy alias — keep /flavors working for any cached clients.
 router.get('/flavors', (req, res) => {
   const c = storage.read();
   res.json(c.flavors.filter(f => f.published));
