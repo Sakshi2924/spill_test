@@ -16,27 +16,47 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Shipping &amp; Returns — Spill">
   <meta name="twitter:image" content="https://spilltea.com/Spill.png">
-  <link rel="icon" href="Spill.png" type="image/png">
-  <link rel="stylesheet" href="assets/inner.css">
-  <link rel="stylesheet" href="assets/cookie-consent.css">
-  <script src="assets/cookie-consent.js" defer></script>
+  <link rel="icon" href="/Spill.png" type="image/png">
+  <link rel="stylesheet" href="/assets/inner.css">
+  <link rel="stylesheet" href="/assets/cookie-consent.css">
+  <script src="/assets/nav.js" defer></script>
+  <script src="/assets/cookie-consent.js" defer></script>
   <style>
+    nav[aria-label="Primary"] { background: var(--orange); color: var(--cream); }
+    nav[aria-label="Primary"] .logo-nav { color: var(--yellow); }
+    nav[aria-label="Primary"] .nav-links a { color: var(--cream); }
+    .hamburger span { background: var(--cream); }
     .page-header { background: var(--orange); }
     .page-header h1 { color: var(--cream); }
     .page-header .bg-accent { color: rgba(243,232,204,0.1); }
     .page-header::after { background: linear-gradient(to bottom, var(--orange), var(--cream)); }
-    nav { background: var(--orange); }
-    nav a.logo-nav { color: var(--yellow); }
-    nav a.back-link { color: var(--cream); }
     .content h2 { color: var(--orange); }
     .content a.inline { color: var(--red); text-decoration: underline; word-break: break-word; }
   </style>
 </head>
 <body>
   <nav aria-label="Primary">
-    <a href="index.html" class="logo-nav">Spill</a>
-    <a href="index.html" class="back-link">&larr; Back to home</a>
+    <a href="/" class="logo-nav">Spill</a>
+    <ul class="nav-links">
+      <li><a href="/#brew">Our Brews</a></li>
+      <li><a href="/#flavours">Flavours</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+      <li><a href="/#footer-policies">Policies</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Main menu">
+    <a href="/#brew" data-close>Our Brews</a>
+    <a href="/#flavours" data-close>Flavours</a>
+    <a href="/contact.html" data-close>Contact</a>
+    <a href="/privacy-policy.html" data-close>Privacy Policy</a>
+    <a href="/shipping-returns.html" data-close>Shipping &amp; Returns</a>
+    <a href="/refund-policy.html" data-close>Refund Policy</a>
+    <a href="/terms.html" data-close>Terms</a>
+  </div>
 
   <header class="page-header">
     <h1>Shipping &amp; Returns</h1>
@@ -60,7 +80,7 @@
     <p>International shipping is coming soon. Want to be notified? Drop us a line.</p>
 
     <h2>Questions</h2>
-    <p>Hit us up at <a class="inline" href="mailto:hello@spilltea.com">hello@spilltea.com</a>.</p>
+    <p>Hit us up at <a class="inline" href="mailto:hello@spillnow.in">hello@spillnow.in</a>.</p>
   </main>
 
   <footer class="site-footer">
