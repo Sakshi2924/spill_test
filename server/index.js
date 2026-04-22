@@ -100,6 +100,12 @@ app.get('/healthz', (req, res) => {
   res.json({ ok: true, uptime: Math.round(process.uptime()), now: Date.now() });
 });
 
+// --- FAVICON aliases so browsers requesting /favicon.ico or /apple-touch-icon.png
+// get the brand logo instead of a 404. Matches the Vercel rewrite config. ---
+app.get(['/favicon.ico', '/apple-touch-icon.png', '/apple-touch-icon-precomposed.png'], (req, res) => {
+  res.sendFile(path.join(ROOT, 'Spill.png'));
+});
+
 // --- PUBLIC READ API ---
 app.use('/api', publicApiRouter);
 
