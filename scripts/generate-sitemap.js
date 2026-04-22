@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const ORIGIN = process.env.PUBLIC_ORIGIN || 'https://spilltea.com';
+const ORIGIN = process.env.PUBLIC_ORIGIN || 'https://spillnow.in';
 
 const staticPages = [
   { loc: '/',                            priority: 1.0, changefreq: 'weekly'  },
