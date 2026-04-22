@@ -17,52 +17,48 @@
   <meta name="twitter:title" content="Contact — Spill">
   <meta name="twitter:description" content="Questions, ideas, tea talk.">
   <meta name="twitter:image" content="https://spilltea.com/Spill.png">
-  <link rel="icon" href="Spill.png" type="image/png">
-  <link rel="stylesheet" href="assets/inner.css">
-  <link rel="stylesheet" href="assets/cookie-consent.css">
-  <script src="assets/cookie-consent.js" defer></script>
+  <link rel="icon" href="/Spill.png" type="image/png">
+  <link rel="stylesheet" href="/assets/inner.css">
+  <link rel="stylesheet" href="/assets/cookie-consent.css">
+  <script src="/assets/nav.js" defer></script>
+  <script src="/assets/cookie-consent.js" defer></script>
+  <script src="/assets/contact.js" defer></script>
   <style>
-    :root { --accent: var(--lime); --accent-ink: var(--green); }
+    nav[aria-label="Primary"] { background: var(--lime); color: var(--green); }
+    nav[aria-label="Primary"] .logo-nav { color: var(--green); }
+    nav[aria-label="Primary"] .nav-links a { color: var(--green); }
+    .hamburger span { background: var(--green); }
     .page-header { background: var(--lime); }
     .page-header h1 { color: var(--green); }
     .page-header .bg-accent { color: rgba(25,83,43,0.08); }
     .page-header::after { background: linear-gradient(to bottom, var(--lime), var(--cream)); }
-    nav { background: var(--lime); }
-    nav a.logo-nav, nav a.back-link { color: var(--green); }
     .content h2 { color: var(--green); }
-    .contact-card {
-      background: var(--green);
-      border-radius: 24px;
-      padding: 56px 40px;
-      margin: 40px auto 0;
-      max-width: 520px;
-      text-align: center;
-      box-shadow: 6px 6px 0 var(--yellow);
-      transition: transform .3s, box-shadow .3s;
-    }
-    .contact-card:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--yellow); }
-    .contact-card h3 {
-      font-family: 'Chomp Oblique', serif; font-style: italic;
-      font-size: clamp(1.6rem, 4vw, 2rem);
-      color: var(--yellow); margin-bottom: 20px; padding-right: 0.12em;
-    }
-    .contact-card p { color: var(--cream); opacity: 0.8; margin-bottom: 8px; }
-    .contact-card a {
-      color: var(--yellow); text-decoration: none;
-      font-family: 'Chomp Oblique', serif; font-style: italic;
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
-      padding-right: 0.12em;
-      word-break: break-word;
-      transition: color .3s;
-    }
-    .contact-card a:hover { color: var(--lime); }
+    .content a.inline { color: var(--orange); text-decoration: underline; word-break: break-word; }
   </style>
 </head>
 <body>
   <nav aria-label="Primary">
-    <a href="index.html" class="logo-nav">Spill</a>
-    <a href="index.html" class="back-link">&larr; Back to home</a>
+    <a href="/" class="logo-nav">Spill</a>
+    <ul class="nav-links">
+      <li><a href="/#brew">Our Brews</a></li>
+      <li><a href="/#flavours">Flavours</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+      <li><a href="/#footer-policies">Policies</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Main menu">
+    <a href="/#brew" data-close>Our Brews</a>
+    <a href="/#flavours" data-close>Flavours</a>
+    <a href="/contact.html" data-close>Contact</a>
+    <a href="/privacy-policy.html" data-close>Privacy Policy</a>
+    <a href="/shipping-returns.html" data-close>Shipping &amp; Returns</a>
+    <a href="/refund-policy.html" data-close>Refund Policy</a>
+    <a href="/terms.html" data-close>Terms</a>
+  </div>
 
   <header class="page-header">
     <h1>Contact</h1>
@@ -71,14 +67,45 @@
 
   <main class="content content-center">
     <h2>Let&apos;s Chat</h2>
-    <p>Got a question, idea, or just want to talk tea? We&apos;re all ears.</p>
+    <p>Got a question, idea, or just want to talk tea? Drop us a line and we&apos;ll get back to you within 24 hours.</p>
 
-    <div class="contact-card">
-      <h3>Drop Us A Line</h3>
-      <p>Email</p>
-      <a href="mailto:hello@spilltea.com">hello@spilltea.com</a>
-      <p style="margin-top:20px;">We typically respond within 24 hours.</p>
-    </div>
+    <form class="contact-form" id="contactForm" novalidate autocomplete="on">
+      <h3>Send us a message</h3>
+      <p class="form-lead">All fields are required.</p>
+
+      <div class="form-row">
+        <label for="cf-name">Name</label>
+        <input id="cf-name" name="name" type="text" required maxlength="100" autocomplete="name" placeholder="Your name">
+      </div>
+
+      <div class="form-row">
+        <label for="cf-email">Email</label>
+        <input id="cf-email" name="email" type="email" required maxlength="200" autocomplete="email" placeholder="you@example.com">
+      </div>
+
+      <div class="form-row">
+        <label for="cf-subject">Subject</label>
+        <input id="cf-subject" name="subject" type="text" required maxlength="200" placeholder="What's this about?">
+      </div>
+
+      <div class="form-row">
+        <label for="cf-message">Message</label>
+        <textarea id="cf-message" name="message" required minlength="10" maxlength="4000" rows="6" placeholder="Tell us what's on your mind…"></textarea>
+      </div>
+
+      <label class="honeypot" aria-hidden="true">
+        Leave this field empty
+        <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
+      </label>
+
+      <button type="submit" class="form-submit">Send message</button>
+      <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+    </form>
+
+    <p class="contact-inline">
+      Prefer email? Reach us directly at
+      <a class="inline" href="mailto:hello@spillnow.in">hello@spillnow.in</a>.
+    </p>
   </main>
 
   <footer class="site-footer">
