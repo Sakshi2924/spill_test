@@ -2,12 +2,12 @@
 
 @font-face {
   font-family: 'Chomp';
-  src: url('../ChompRegular-V4Dge.otf') format('opentype');
+  src: url('/ChompRegular-V4Dge.otf') format('opentype');
   font-weight: normal; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Chomp Oblique';
-  src: url('../ChompOblique-JpByK.ttf') format('truetype');
+  src: url('/ChompOblique-JpByK.ttf') format('truetype');
   font-weight: normal; font-style: italic; font-display: swap;
 }
 
@@ -41,29 +41,82 @@ body {
 
 img { max-width: 100%; display: block; }
 
-/* ---- NAV ---- */
-nav {
+/* ---- UNIFIED NAV ---- */
+nav[aria-label="Primary"] {
   position: fixed; top: 0; left: 0; width: 100%;
   z-index: 1000;
   padding: 18px clamp(20px, 4vw, 40px);
   display: flex; justify-content: space-between; align-items: center;
   min-height: var(--nav-h);
-  backdrop-filter: saturate(1.2);
 }
-nav a.logo-nav {
+nav[aria-label="Primary"] .logo-nav {
   font-family: 'Chomp Oblique', serif; font-style: italic;
   font-size: clamp(1.4rem, 2.2vw, 1.8rem);
   text-decoration: none;
   letter-spacing: 2px;
   padding-right: 0.15em;
 }
-nav a.back-link {
+nav[aria-label="Primary"] .nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+nav[aria-label="Primary"] .nav-links a {
   font-size: 0.85rem;
   text-decoration: none;
-  opacity: 0.8;
-  transition: opacity .3s;
+  letter-spacing: 1.5px;
+  text-transform: capitalize;
+  position: relative;
+  transition: opacity 0.3s;
+  opacity: 0.85;
 }
-nav a.back-link:hover { opacity: 1; }
+nav[aria-label="Primary"] .nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 0; height: 2px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+nav[aria-label="Primary"] .nav-links a:hover { opacity: 1; }
+nav[aria-label="Primary"] .nav-links a:hover::after { width: 100%; }
+
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; z-index: 1001;
+  background: transparent; border: 0; padding: 6px;
+}
+.hamburger span {
+  width: 28px; height: 3px;
+  border-radius: 2px; transition: all 0.3s ease;
+  background: currentColor;
+}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
+.mobile-menu {
+  display: none; position: fixed; inset: 0;
+  background: var(--green);
+  z-index: 999;
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 22px; padding: 40px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(1.6rem, 5vw, 2.3rem);
+  color: var(--yellow);
+  text-decoration: none;
+  padding-right: 0.15em;
+  transition: color 0.3s, transform 0.3s;
+}
+.mobile-menu a:hover { color: var(--orange); transform: rotate(-3deg) scale(1.05); }
+
+@media (max-width: 900px) {
+  nav[aria-label="Primary"] .nav-links { display: none; }
+  .hamburger { display: flex; }
+}
 
 /* ---- PAGE HEADER ---- */
 .page-header {
@@ -103,6 +156,8 @@ nav a.back-link:hover { opacity: 1; }
   max-width: 800px;
   margin: 0 auto;
   padding: 80px clamp(20px, 5vw, 40px) 100px;
+  position: relative;
+  z-index: 2;
 }
 .content-center { text-align: center; }
 .content p.meta {
@@ -129,13 +184,133 @@ nav a.back-link:hover { opacity: 1; }
 }
 .content a.inline { transition: color .3s; }
 
-/* ---- FOOTER ---- */
-.site-footer {
+/* ---- CONTACT FORM ---- */
+.contact-form {
   background: var(--green);
-  padding: 36px clamp(20px, 4vw, 40px);
+  border-radius: 24px;
+  padding: 40px clamp(24px, 4vw, 40px);
+  color: var(--cream);
+  max-width: 560px;
+  margin: 40px auto 0;
+  text-align: left;
+  box-shadow: 6px 6px 0 var(--yellow);
+}
+.contact-form h3 {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--yellow);
+  margin-bottom: 8px;
+  padding-right: 0.12em;
+}
+.contact-form .form-lead {
+  opacity: 0.75;
+  margin-bottom: 22px;
+  font-size: 0.9rem;
+}
+.contact-form .form-row { margin-bottom: 16px; }
+.contact-form label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+.contact-form input, .contact-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--cream);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,202,38,0.22);
+  border-radius: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.contact-form textarea { resize: vertical; min-height: 120px; }
+.contact-form input:focus, .contact-form textarea:focus {
+  outline: 2px solid var(--yellow);
+  outline-offset: 1px;
+  border-color: transparent;
+  background: rgba(255,255,255,0.1);
+}
+.contact-form input::placeholder, .contact-form textarea::placeholder {
+  color: rgba(243,232,204,0.35);
+}
+.contact-form .form-submit {
+  background: var(--yellow);
+  color: var(--green);
+  padding: 14px 28px;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.15);
+}
+.contact-form .form-submit:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.15);
+}
+.contact-form .form-submit:disabled { opacity: 0.6; cursor: wait; }
+.contact-form .honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px; height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.contact-form .form-status {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  min-height: 1.5em;
+  padding: 10px 14px;
+  border-radius: 8px;
+  line-height: 1.45;
+}
+.contact-form .form-status:empty { display: none; }
+.contact-form .form-status.success {
+  background: rgba(154,188,4,0.18);
+  color: var(--yellow);
+  border: 1px solid rgba(154,188,4,0.35);
+}
+.contact-form .form-status.error {
+  background: rgba(212,37,24,0.2);
+  color: var(--yellow);
+  border: 1px solid rgba(212,37,24,0.4);
+}
+
+/* Small helper: one-line email card for contact page */
+.contact-inline {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(25,83,43,0.15);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+.contact-inline a { color: var(--orange); text-decoration: underline; word-break: break-word; }
+
+/* ---- FOOTER (with seamless fold) ---- */
+.site-footer {
+  position: relative;
+  background: var(--green);
+  padding: 72px clamp(20px, 4vw, 40px) 40px;
   text-align: center;
+  overflow: hidden;
+}
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 0;
+  width: 100%; height: 160px;
+  background: linear-gradient(to bottom, var(--cream), var(--green));
+  pointer-events: none;
+  z-index: 1;
 }
 .site-footer p {
+  position: relative; z-index: 2;
   font-size: 0.75rem;
   color: var(--cream);
   opacity: 0.55;
@@ -144,8 +319,7 @@ nav a.back-link:hover { opacity: 1; }
 
 @media (max-width: 560px) {
   .page-header .bg-accent { font-size: clamp(5rem, 28vw, 10rem); bottom: -20px; }
-  nav { padding: 14px 18px; }
-  nav a.back-link { font-size: 0.8rem; }
+  nav[aria-label="Primary"] { padding: 14px 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
