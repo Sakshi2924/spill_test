@@ -1,0 +1,45 @@
+# Files that don't belong in the Vercel static + /api deploy.
+# Everything the Node server needs stays in the repo for local dev
+# (and any Node-capable host deployment via DEPLOYMENT.md) — but isn't shipped to Vercel.
+
+# Node server (Express app, not used on Vercel)
+server/
+admin/
+scripts/
+data/
+public/uploads/
+
+# Dev / CI tooling
+.github/
+.githooks/
+ci/
+.agents/
+.claude/
+node_modules/
+
+# Secrets + runtime state
+.env
+.env.local
+*.log
+*.log.*
+
+# Media that doesn't belong in git (already gitignored but safety-net)
+*.mov
+*.mp4
+*.MOV
+*.MP4
+
+# Misc
+.DS_Store
+auto-push.sh
+frame_A_reference.jpg
+frame_B_reference.jpg
+remotion/
+skills-lock.json
+
+# Docs — deploy-facing ones (README) stay; internal ops docs can stay too, they're harmless
+# (Uncomment to exclude them from the deploy bundle if you prefer.)
+# DEPLOYMENT.md
+# SECURITY.md
+# PRODUCTION_CHECKLIST.md
+# INCIDENT_TEMPLATE.md
