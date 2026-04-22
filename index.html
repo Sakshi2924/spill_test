@@ -707,11 +707,11 @@
   <div class="floating-shapes" id="floatingShapes" aria-hidden="true"></div>
 
   <nav aria-label="Primary">
-    <a href="#hero" class="logo-nav" aria-label="Spill — Home">Spill</a>
+    <a href="/" class="logo-nav" aria-label="Spill — Home">Spill</a>
     <ul class="nav-links">
       <li><a href="#brew">Our Brews</a></li>
-      <li><a href="#flavours">Flavors</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="#flavours">Flavours</a></li>
+      <li><a href="/contact.html">Contact</a></li>
       <li><a href="#footer-policies">Policies</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
@@ -721,11 +721,12 @@
 
   <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Main menu">
     <a href="#brew" data-close>Our Brews</a>
-    <a href="#flavours" data-close>Flavors</a>
-    <a href="contact.html" data-close>Contact</a>
-    <a href="privacy-policy.html" data-close>Privacy Policy</a>
-    <a href="shipping-returns.html" data-close>Shipping &amp; Returns</a>
-    <a href="refund-policy.html" data-close>Refund Policy</a>
+    <a href="#flavours" data-close>Flavours</a>
+    <a href="/contact.html" data-close>Contact</a>
+    <a href="/privacy-policy.html" data-close>Privacy Policy</a>
+    <a href="/shipping-returns.html" data-close>Shipping &amp; Returns</a>
+    <a href="/refund-policy.html" data-close>Refund Policy</a>
+    <a href="/terms.html" data-close>Terms</a>
   </div>
 
   <section class="hero" id="hero">
@@ -737,10 +738,10 @@
       <p class="hero-tagline" id="heroTagline">Tea That Hits Different</p>
     </div>
 
-    <div class="hero-scroll-hint" aria-hidden="true">
+    <a class="hero-scroll-hint" href="#brew" aria-label="Scroll to our brews">
       <span>Scroll Down</span>
-      <div class="scroll-arrow"></div>
-    </div>
+      <div class="scroll-arrow" aria-hidden="true"></div>
+    </a>
   </section>
 
   <div class="marquee-section" aria-hidden="true">
@@ -765,7 +766,7 @@
       <div class="brew-card">
         <span class="card-emoji" aria-hidden="true">&#127861;</span>
         <h3>Brewed Fresh</h3>
-        <p>Every cup is a riot of flavor, steeped to perfection.</p>
+        <p>Every cup is a riot of flavour, steeped to perfection.</p>
       </div>
       <div class="brew-card">
         <span class="card-emoji" aria-hidden="true">&#127793;</span>
@@ -792,7 +793,7 @@
 
   <section class="flavors-section" id="flavours" data-desktop-height>
     <div class="flavors-header">
-      <h2>Five Flavors, Zero Rules</h2>
+      <h2>Five Flavours, Zero Rules</h2>
       <p>Tap a card to meet the brew.</p>
     </div>
     <div class="flavors-sticky">
