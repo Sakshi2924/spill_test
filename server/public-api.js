@@ -18,7 +18,7 @@ router.get('/flavors', (req, res) => {
   res.json(c.flavors.filter(f => f.published));
 });
 
-router.get('/flavors/:slug', (req, res) => {
+router.get('/flavours/:slug', (req, res) => {
   const f = storage.getFlavor(req.params.slug);
   if (!f || !f.published) return res.status(404).json({ error: 'Not found' });
   res.json(f);

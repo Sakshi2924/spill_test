@@ -19,7 +19,7 @@
 
   // Compute href for the privacy-policy link that works from any depth.
   function privacyHref() {
-    // /flavors/*.html → one level deep, so use ../privacy-policy.html
+    // /flavours/*.html → one level deep, so use ../privacy-policy.html
     if (/\/flavors\//.test(location.pathname)) return '../privacy-policy.html';
     return 'privacy-policy.html';
   }

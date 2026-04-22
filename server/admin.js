@@ -131,7 +131,7 @@ api.get('/content', (req, res, next) => {
 
 const ALLOWED_FLAVOR_FIELDS = ['name', 'tagline', 'price', 'theme', 'published', 'short', 'images'];
 
-api.put('/flavors/:slug',
+api.put('/flavours/:slug',
   param('slug').isSlug(),
   body().isObject(),
   auditAdmin('flavor.update'),

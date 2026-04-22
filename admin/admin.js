@@ -145,7 +145,7 @@ function wireFlavorCard(card, data) {
         else if (el.type === 'number') patch[k] = Number(el.value);
         else patch[k] = el.value;
       });
-      await api('/flavors/' + encodeURIComponent(slug), { method: 'PUT', body: JSON.stringify(patch) });
+      await api('/flavours/' + encodeURIComponent(slug), { method: 'PUT', body: JSON.stringify(patch) });
       toast('Saved');
     } catch (e) { toast(e.message, true); }
     finally { ev.target.disabled = false; }

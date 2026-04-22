@@ -22,7 +22,7 @@ const staticPages = [
 const flavorsDir = path.join(ROOT, 'flavors');
 const flavorPages = fs.readdirSync(flavorsDir)
   .filter(f => f.endsWith('.html'))
-  .map(f => ({ loc: `/flavors/${f}`, priority: 0.9, changefreq: 'monthly' }));
+  .map(f => ({ loc: `/flavours/${f}`, priority: 0.9, changefreq: 'monthly' }));
 
 const all = [...staticPages, ...flavorPages];
 
