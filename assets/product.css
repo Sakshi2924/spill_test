@@ -45,17 +45,17 @@ body {
 img { max-width: 100%; display: block; }
 a { color: inherit; }
 
-/* ---- NAV ---- */
-nav {
+/* ---- UNIFIED NAV (matches inner.css layout, theme-coloured per product) ---- */
+nav[aria-label="Primary"] {
   position: fixed; top: 0; left: 0; width: 100%;
   z-index: 1000;
   padding: 18px clamp(20px, 4vw, 40px);
   display: flex; justify-content: space-between; align-items: center;
   min-height: var(--nav-h);
   background: var(--theme);
-  color: var(--theme-pop);
+  color: var(--cream);
 }
-nav .logo-nav {
+nav[aria-label="Primary"] .logo-nav {
   font-family: 'Chomp Oblique', serif; font-style: italic;
   font-size: clamp(1.4rem, 2.2vw, 1.8rem);
   color: var(--theme-pop);
@@ -63,34 +63,69 @@ nav .logo-nav {
   letter-spacing: 2px;
   padding-right: 0.15em;
 }
-nav .nav-right { display: flex; gap: 20px; align-items: center; }
-nav a.back-link, nav a.cart-link {
+nav[aria-label="Primary"] .nav-links {
+  display: flex; gap: 28px; list-style: none;
+}
+nav[aria-label="Primary"] .nav-links a {
   font-size: 0.85rem;
-  color: var(--cream);
   text-decoration: none;
-  opacity: 0.85;
+  color: var(--cream);
+  letter-spacing: 1.5px;
+  text-transform: capitalize;
+  position: relative;
+  opacity: 0.9;
   transition: opacity .3s;
 }
-nav a.back-link:hover, nav a.cart-link:hover { opacity: 1; }
-
-/* ---- BREADCRUMB ---- */
-.breadcrumb {
-  padding: calc(var(--nav-h) + 20px) clamp(20px, 4vw, 40px) 0;
-  max-width: 1300px; margin: 0 auto;
-  font-size: 0.78rem;
-  color: var(--green);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  opacity: 0.7;
+nav[aria-label="Primary"] .nav-links a::after {
+  content: ''; position: absolute; left: 0; bottom: -4px;
+  width: 0; height: 2px; background: var(--theme-pop);
+  transition: width 0.3s ease;
 }
-.breadcrumb a { text-decoration: none; }
-.breadcrumb a:hover { color: var(--theme); opacity: 1; }
+nav[aria-label="Primary"] .nav-links a:hover { opacity: 1; }
+nav[aria-label="Primary"] .nav-links a:hover::after { width: 100%; }
+
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; z-index: 1001;
+  background: transparent; border: 0; padding: 6px;
+}
+.hamburger span {
+  width: 28px; height: 3px; background: var(--cream);
+  border-radius: 2px; transition: all 0.3s ease;
+}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
+.mobile-menu {
+  display: none; position: fixed; inset: 0;
+  background: var(--green);
+  z-index: 999;
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 22px; padding: 40px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(1.6rem, 5vw, 2.3rem);
+  color: var(--yellow);
+  text-decoration: none;
+  padding-right: 0.15em;
+  transition: color 0.3s, transform 0.3s;
+}
+.mobile-menu a:hover { color: var(--orange); transform: rotate(-3deg) scale(1.05); }
+
+@media (max-width: 900px) {
+  nav[aria-label="Primary"] .nav-links { display: none; }
+  .hamburger { display: flex; }
+}
 
 /* ---- PRODUCT HERO ---- */
 .product-hero {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 40px clamp(20px, 4vw, 40px) 100px;
+  /* extra top padding so the first image clears the fixed nav cleanly */
+  padding: calc(var(--nav-h) + 56px) clamp(20px, 4vw, 40px) 100px;
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   gap: clamp(32px, 5vw, 80px);
