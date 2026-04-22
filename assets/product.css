@@ -1,0 +1,632 @@
+/* Spill — Product page stylesheet (Manam-inspired, Spill-themed) */
+
+@font-face {
+  font-family: 'Chomp';
+  src: url('../ChompRegular-V4Dge.otf') format('opentype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Chomp Oblique';
+  src: url('../ChompOblique-JpByK.ttf') format('truetype');
+  font-style: italic; font-display: swap;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --yellow: #ffca26;
+  --cream:  #f3e8cc;
+  --orange: #f86015;
+  --red:    #d42518;
+  --green:  #19532b;
+  --lime:   #9abc04;
+  --ink:    #161616;
+  --nav-h:  72px;
+
+  /* themed by each product page */
+  --theme:        var(--red);
+  --theme-deep:   var(--green);
+  --theme-soft:   var(--cream);
+  --theme-pop:    var(--yellow);
+}
+
+html { scroll-behavior: smooth; overflow-x: clip; }
+
+body {
+  font-family: 'Chomp', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--green);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.55;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+
+/* ---- NAV ---- */
+nav {
+  position: fixed; top: 0; left: 0; width: 100%;
+  z-index: 1000;
+  padding: 18px clamp(20px, 4vw, 40px);
+  display: flex; justify-content: space-between; align-items: center;
+  min-height: var(--nav-h);
+  background: var(--theme);
+  color: var(--theme-pop);
+}
+nav .logo-nav {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  color: var(--theme-pop);
+  text-decoration: none;
+  letter-spacing: 2px;
+  padding-right: 0.15em;
+}
+nav .nav-right { display: flex; gap: 20px; align-items: center; }
+nav a.back-link, nav a.cart-link {
+  font-size: 0.85rem;
+  color: var(--cream);
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity .3s;
+}
+nav a.back-link:hover, nav a.cart-link:hover { opacity: 1; }
+
+/* ---- BREADCRUMB ---- */
+.breadcrumb {
+  padding: calc(var(--nav-h) + 20px) clamp(20px, 4vw, 40px) 0;
+  max-width: 1300px; margin: 0 auto;
+  font-size: 0.78rem;
+  color: var(--green);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.breadcrumb a { text-decoration: none; }
+.breadcrumb a:hover { color: var(--theme); opacity: 1; }
+
+/* ---- PRODUCT HERO ---- */
+.product-hero {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 40px clamp(20px, 4vw, 40px) 100px;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+  position: relative;
+}
+
+/* Gallery (left, sticky) */
+.gallery {
+  position: sticky;
+  top: calc(var(--nav-h) + 20px);
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 20px;
+  align-self: start;
+}
+.thumbs {
+  display: flex; flex-direction: column; gap: 14px;
+}
+.thumb {
+  width: 84px; height: 84px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  background: var(--theme-soft);
+  transition: border-color .3s, transform .3s;
+}
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.thumb.active { border-color: var(--theme); }
+.thumb:hover { transform: translateY(-2px); }
+
+.main-image {
+  background: var(--theme-soft);
+  border-radius: 28px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  position: relative;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+}
+.main-image img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: opacity .3s ease, transform .5s ease;
+}
+.main-image:hover img { transform: scale(1.02); }
+
+/* Info (right) */
+.info {
+  padding-top: 12px;
+}
+.info .eyebrow {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: 0.95rem;
+  color: var(--theme);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding-right: 0.12em;
+  margin-bottom: 10px;
+}
+.info h1 {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  color: var(--theme-deep);
+  line-height: 1.0;
+  padding-right: 0.15em;
+  margin-bottom: 16px;
+  word-break: break-word;
+}
+.info .short {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: var(--green);
+  opacity: 0.85;
+  max-width: 540px;
+  line-height: 1.55;
+  margin-bottom: 24px;
+}
+.price-row {
+  display: flex; align-items: baseline; gap: 14px;
+  margin-bottom: 28px;
+}
+.price {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  color: var(--theme-deep);
+  padding-right: 0.12em;
+}
+.price-suffix {
+  font-size: 0.85rem;
+  color: var(--green);
+  opacity: 0.7;
+  letter-spacing: 1px;
+}
+
+.size-label, .qty-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--green);
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+.size-options {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-bottom: 24px;
+}
+.size-opt {
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 2px solid var(--theme-deep);
+  background: transparent;
+  color: var(--theme-deep);
+  font-family: 'Chomp', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+.size-opt[aria-pressed="true"] {
+  background: var(--theme-deep);
+  color: var(--cream);
+}
+.size-opt:hover { transform: translateY(-1px); }
+
+.qty-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 28px;
+}
+.qty-btn {
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: 2px solid var(--theme-deep);
+  background: transparent;
+  color: var(--theme-deep);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+.qty-btn:hover { background: var(--theme-deep); color: var(--cream); }
+.qty-value { font-size: 1.1rem; min-width: 30px; text-align: center; }
+
+.btn-primary {
+  display: inline-block;
+  padding: 16px 40px;
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: 1.1rem;
+  color: var(--cream);
+  background: var(--theme-deep);
+  border: none; border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 var(--theme-pop);
+  transition: transform .2s, box-shadow .2s;
+  padding-right: calc(40px + 0.15em);
+}
+.btn-primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--theme-pop);
+}
+.btn-secondary {
+  display: inline-block;
+  padding: 16px 32px;
+  margin-left: 10px;
+  font-family: 'Chomp', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--theme-deep);
+  background: transparent;
+  border: 2px solid var(--theme-deep);
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .3s;
+}
+.btn-secondary:hover { background: var(--theme-deep); color: var(--cream); }
+
+.quick-bullets {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(25,83,43,0.15);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+}
+.quick-bullets li {
+  list-style: none;
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 0.88rem;
+  color: var(--green);
+  opacity: 0.85;
+}
+.quick-bullets li::before {
+  content: '✦';
+  color: var(--theme);
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+/* ---- SECTION: TASTING NOTES ---- */
+.section {
+  padding: 120px clamp(20px, 4vw, 40px);
+  position: relative;
+}
+.section::before {
+  content: ''; position: absolute;
+  top: -80px; left: 0; width: 100%; height: 160px;
+  pointer-events: none;
+  z-index: 1;
+}
+.section-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+.section-eyebrow {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+.section-title {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  line-height: 1.0;
+  padding: 0 0.15em 10px 0;
+  margin-bottom: 24px;
+  word-break: break-word;
+}
+.section-lead {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  max-width: 720px;
+  line-height: 1.65;
+  opacity: 0.88;
+  margin-bottom: 40px;
+}
+
+/* tasting notes grid */
+.tasting {
+  background: var(--theme-soft);
+  color: var(--green);
+}
+.tasting::before {
+  background: linear-gradient(to bottom, var(--cream), var(--theme-soft));
+}
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.note-card {
+  background: var(--cream);
+  padding: 32px 28px;
+  border-radius: 20px;
+  transition: transform .3s, box-shadow .3s;
+  border: 1px solid rgba(25,83,43,0.08);
+}
+.note-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.08); }
+.note-card .note-emoji { font-size: 2.2rem; margin-bottom: 10px; display: block; }
+.note-card h4 {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: 1.2rem;
+  color: var(--theme);
+  margin-bottom: 8px;
+  padding-right: 0.12em;
+}
+.note-card p { font-size: 0.9rem; opacity: 0.85; }
+
+/* ingredients */
+.ingredients {
+  background: var(--theme-deep);
+  color: var(--cream);
+}
+.ingredients::before {
+  background: linear-gradient(to bottom, var(--theme-soft), var(--theme-deep));
+}
+.ingredients .section-title, .ingredients .section-eyebrow { color: var(--theme-pop); }
+.ingredients .section-lead { color: var(--cream); opacity: 0.9; }
+.ingredient-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+.ingredient-list li {
+  list-style: none;
+  padding: 16px 20px;
+  background: rgba(255,202,38,0.08);
+  border: 1px solid rgba(255,202,38,0.15);
+  border-radius: 14px;
+  font-size: 0.95rem;
+  color: var(--cream);
+}
+
+/* brewing ritual */
+.brewing {
+  background: var(--cream);
+}
+.brewing::before {
+  background: linear-gradient(to bottom, var(--theme-deep), var(--cream));
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+.step {
+  background: var(--cream);
+  border: 2px solid var(--theme);
+  border-radius: 20px;
+  padding: 32px 24px;
+  position: relative;
+  transition: transform .3s;
+}
+.step:hover { transform: translateY(-4px) rotate(-0.5deg); }
+.step-number {
+  position: absolute;
+  top: -18px; left: 20px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--theme);
+  color: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: 1.3rem;
+  padding-right: 0.1em;
+}
+.step h4 {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: 1.25rem;
+  color: var(--theme-deep);
+  margin: 8px 0 8px;
+  padding-right: 0.12em;
+}
+.step p { font-size: 0.9rem; opacity: 0.88; }
+
+/* story */
+.story {
+  background: var(--theme);
+  color: var(--cream);
+}
+.story::before {
+  background: linear-gradient(to bottom, var(--cream), var(--theme));
+}
+.story .section-title, .story .section-eyebrow { color: var(--theme-pop); }
+.story .section-lead { color: var(--cream); opacity: 0.92; }
+.story .story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-top: 30px;
+}
+.story-grid p { font-size: clamp(0.95rem, 2vw, 1.05rem); line-height: 1.7; }
+.story-image {
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: rgba(0,0,0,0.1);
+}
+.story-image img { width: 100%; height: 100%; object-fit: cover; }
+
+/* nutrition facts */
+.facts {
+  background: var(--cream);
+}
+.facts::before {
+  background: linear-gradient(to bottom, var(--theme), var(--cream));
+}
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+.fact {
+  background: var(--theme-soft);
+  border-radius: 18px;
+  padding: 22px 20px;
+  text-align: center;
+}
+.fact strong {
+  display: block;
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: 1.7rem;
+  color: var(--theme-deep);
+  padding-right: 0.12em;
+  margin-bottom: 4px;
+}
+.fact span {
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* related */
+.related {
+  background: var(--theme-deep);
+  color: var(--cream);
+}
+.related::before {
+  background: linear-gradient(to bottom, var(--cream), var(--theme-deep));
+}
+.related .section-title, .related .section-eyebrow { color: var(--theme-pop); }
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+.related-card {
+  background: rgba(255,202,38,0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--cream);
+  transition: transform .3s, background .3s;
+  border: 1px solid rgba(255,202,38,0.18);
+}
+.related-card:hover { transform: translateY(-4px); background: rgba(255,202,38,0.15); }
+.related-card .related-img {
+  aspect-ratio: 4/3;
+  background: var(--theme);
+}
+.related-card .related-img img { width: 100%; height: 100%; object-fit: cover; }
+.related-card .related-body { padding: 20px 22px; }
+.related-card h4 {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: 1.3rem;
+  color: var(--theme-pop);
+  margin-bottom: 6px;
+  padding-right: 0.12em;
+}
+.related-card p { font-size: 0.85rem; opacity: 0.85; }
+
+/* footer */
+.site-footer {
+  background: var(--green);
+  padding: 60px clamp(20px, 4vw, 40px) 36px;
+  color: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.site-footer::before {
+  content: ''; position: absolute;
+  top: -80px; left: 0; width: 100%; height: 160px;
+  background: linear-gradient(to bottom, var(--theme-deep), var(--green));
+  pointer-events: none;
+}
+.footer-top {
+  max-width: 1200px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+  position: relative; z-index: 2;
+}
+.footer-top h2 {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: var(--yellow);
+  padding-right: 0.15em;
+}
+.footer-top p { font-size: 0.9rem; margin-top: 12px; opacity: 0.75; max-width: 340px; }
+.footer-top h4 {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  color: var(--lime); margin-bottom: 14px; padding-right: 0.12em;
+}
+.footer-top ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-top a { font-size: 0.85rem; color: var(--cream); text-decoration: none; opacity: 0.75; transition: opacity .3s, color .3s; }
+.footer-top a:hover { opacity: 1; color: var(--yellow); }
+.footer-bottom {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.75rem;
+  opacity: 0.5;
+  letter-spacing: 1px;
+  position: relative; z-index: 2;
+}
+
+/* marquee divider used between sections if desired */
+.marquee-divider {
+  background: var(--theme);
+  overflow: hidden;
+  padding: 18px 0;
+  transform: rotate(-1.5deg);
+  margin: -20px -5vw;
+  width: 110vw;
+  position: relative;
+  z-index: 5;
+}
+.marquee-divider .track {
+  display: flex; width: max-content;
+  animation: scrollLeft 20s linear infinite;
+}
+.marquee-divider .track span {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(1.1rem, 3vw, 2rem);
+  color: var(--theme-pop);
+  white-space: nowrap;
+  padding: 0 26px;
+}
+@keyframes scrollLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 960px) {
+  .product-hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 30px clamp(20px, 4vw, 40px) 80px;
+  }
+  .gallery {
+    position: static;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .thumbs {
+    flex-direction: row;
+    order: 2;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .thumb { flex-shrink: 0; width: 70px; height: 70px; }
+  .main-image { order: 1; aspect-ratio: 4/5; }
+  .info { padding-top: 0; }
+  .story .story-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .info h1 { font-size: clamp(2rem, 10vw, 3rem); }
+  .btn-secondary { margin-left: 0; margin-top: 12px; display: inline-block; }
+  .footer-top { grid-template-columns: 1fr; }
+  .section { padding: 100px clamp(20px, 4vw, 40px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+  html { scroll-behavior: auto; }
+}
