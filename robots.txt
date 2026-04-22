@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin
+Disallow: /data/
+Disallow: /uploads/
+Disallow: /api/
+
+# Block bad-bot variants from crawling anything behind auth or raw APIs.
+User-agent: GPTBot
+Disallow: /admin/
+Disallow: /admin
+Disallow: /api/
+
+User-agent: CCBot
+Disallow: /admin/
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://spilltea.com/sitemap.xml

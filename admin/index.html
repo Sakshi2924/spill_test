@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Admin — Spill</title>
+  <link rel="icon" href="/Spill.png" type="image/png">
+  <style>
+    :root {
+      --yellow: #ffca26;
+      --cream:  #f3e8cc;
+      --orange: #f86015;
+      --red:    #d42518;
+      --green:  #19532b;
+      --ink:    #0f1a13;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+    header {
+      background: var(--green);
+      color: var(--cream);
+      padding: 16px 28px;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 10;
+    }
+    header h1 { font-style: italic; color: var(--yellow); font-size: 1.4rem; }
+    header .user { display: flex; gap: 14px; align-items: center; font-size: 0.9rem; opacity: 0.9; }
+    header button {
+      padding: 8px 16px; background: var(--red); color: var(--cream);
+      border: 0; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+    }
+    main { max-width: 1100px; margin: 0 auto; padding: 30px 24px 80px; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .tab {
+      padding: 10px 18px; background: transparent; border: 2px solid var(--green);
+      border-radius: 999px; cursor: pointer; color: var(--green);
+      font-size: 0.9rem;
+    }
+    .tab.active { background: var(--green); color: var(--cream); }
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .card {
+      background: #fff; border-radius: 14px; padding: 24px;
+      margin-bottom: 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .card h2 { font-size: 1.2rem; margin-bottom: 4px; color: var(--green); }
+    .card .slug { font-size: 0.8rem; opacity: 0.55; margin-bottom: 14px; font-family: ui-monospace, monospace; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    @media (max-width: 700px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+    label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; margin: 10px 0 5px; }
+    input[type=text], input[type=number], input[type=color], textarea, select {
+      width: 100%; padding: 10px 12px;
+      border: 1px solid #d8d2c4; border-radius: 8px;
+      font: inherit; color: var(--ink); background: #fff;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    input:focus, textarea:focus { outline: 2px solid var(--green); border-color: transparent; }
+
+    .switch { display: inline-flex; gap: 10px; align-items: center; font-size: 0.9rem; }
+    .switch input { accent-color: var(--green); }
+
+    .images { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .img-chip {
+      width: 72px; height: 72px; border-radius: 10px; overflow: hidden;
+      border: 2px solid transparent; position: relative; background: var(--cream);
+    }
+    .img-chip img { width: 100%; height: 100%; object-fit: cover; }
+    .img-chip .rm {
+      position: absolute; top: 2px; right: 2px; width: 20px; height: 20px;
+      border: 0; border-radius: 50%; background: rgba(0,0,0,0.65); color: #fff;
+      cursor: pointer; font-size: 0.75rem;
+    }
+    .upload-zone {
+      border: 2px dashed #c6bfa9; border-radius: 10px; padding: 16px;
+      text-align: center; cursor: pointer; color: #6b624a; font-size: 0.9rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .upload-zone:hover, .upload-zone.drag { border-color: var(--green); background: rgba(25,83,43,0.04); }
+
+    .btn {
+      padding: 10px 20px; background: var(--green); color: var(--cream);
+      border: 0; border-radius: 8px; cursor: pointer; font-size: 0.9rem;
+    }
+    .btn:disabled { opacity: 0.6; cursor: wait; }
+    .btn-ghost { background: transparent; color: var(--green); border: 1px solid var(--green); }
+    .btn-danger { background: var(--red); }
+    .row-actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .pill.ok { background: rgba(25,83,43,0.15); color: var(--green); }
+    .pill.warn { background: rgba(248,96,21,0.15); color: var(--orange); }
+
+    .secret-box {
+      margin-top: 16px;
+      padding: 14px;
+      background: var(--cream);
+      border-radius: 10px;
+      font-family: ui-monospace, monospace;
+      font-size: 0.9rem;
+      word-break: break-all;
+    }
+    .secret-box code {
+      display: block;
+      padding: 6px;
+      background: rgba(0,0,0,0.04);
+      border-radius: 6px;
+      margin-top: 6px;
+      user-select: all;
+    }
+
+    .toast {
+      position: fixed; bottom: 20px; right: 20px;
+      background: var(--green); color: var(--cream);
+      padding: 12px 20px; border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      transform: translateY(10px);
+      z-index: 100;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.error { background: var(--red); }
+    .empty { padding: 40px; text-align: center; opacity: 0.6; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Spill Admin</h1>
+    <div class="user">
+      <span id="me"></span>
+      <button id="logout">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-panel="flavors" role="tab">Flavors</button>
+      <button class="tab" data-panel="pages" role="tab">Pages</button>
+      <button class="tab" data-panel="media" role="tab">Media</button>
+      <button class="tab" data-panel="security" role="tab">Security</button>
+    </div>
+
+    <section class="panel active" id="panel-flavors"></section>
+    <section class="panel" id="panel-pages"></section>
+
+    <section class="panel" id="panel-media">
+      <div class="card">
+        <h2>Upload media</h2>
+        <p class="slug">PNG, JPG, WebP, GIF up to 5&nbsp;MB. Uploaded files appear at /uploads/&lt;filename&gt;.</p>
+        <div class="upload-zone" id="zone">Drop an image here or click to choose.</div>
+        <input type="file" id="mediaFile" accept="image/*" hidden>
+        <div id="recent" class="images" style="margin-top: 16px;"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-security">
+      <div class="card">
+        <h2>Two-factor authentication</h2>
+        <p class="slug" id="twofaStatus">Checking current status…</p>
+
+        <div id="twofaEnabled" style="display:none;">
+          <p>2FA is <span class="pill ok">enabled</span> on your account. Enter a current code to turn it off.</p>
+          <label for="disableCode">6-digit code</label>
+          <input type="text" id="disableCode" inputmode="numeric" maxlength="6" pattern="\d{6}">
+          <div class="row-actions">
+            <button class="btn btn-danger" id="disable2fa">Disable 2FA</button>
+          </div>
+        </div>
+
+        <div id="twofaDisabled" style="display:none;">
+          <p>2FA is <span class="pill warn">off</span>. Turn it on — strongly recommended for production.</p>
+          <div class="row-actions">
+            <button class="btn" id="enroll2fa">Start enrollment</button>
+          </div>
+        </div>
+
+        <div id="twofaEnroll" style="display:none;">
+          <p>Scan this in your authenticator app (1Password / Authy / Google Authenticator / Bitwarden) or manually enter the secret:</p>
+          <div class="secret-box">
+            <strong>Secret</strong>
+            <code id="enrollSecret"></code>
+            <strong style="display:block;margin-top:10px;">Or open this URI on your phone</strong>
+            <code id="enrollUri" style="font-size:0.75rem;"></code>
+          </div>
+          <label for="enrollCode" style="margin-top:20px;">Enter the 6-digit code to confirm</label>
+          <input type="text" id="enrollCode" inputmode="numeric" maxlength="6" pattern="\d{6}">
+          <div class="row-actions">
+            <button class="btn" id="confirm2fa">Confirm and enable</button>
+            <button class="btn btn-ghost" id="cancel2fa">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/admin/admin.js" defer></script>
+</body>
+</html>

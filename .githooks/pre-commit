@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Spill — pre-commit hook.
+# Enable with:  git config core.hooksPath .githooks
+
+set -e
+
+# 1. Refuse to commit .env, users.json, or large media
+bad_files=$(git diff --cached --name-only | grep -E '^\.env$|^data/users\.json$|\.(mov|mp4)$' || true)
+if [[ -n "$bad_files" ]]; then
+  echo "✗ refusing to commit files that should not be tracked:"
+  echo "$bad_files" | sed 's/^/    /'
+  exit 1
+fi
+
+# 2. node -c every .js file staged
+staged_js=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.js$' || true)
+for f in $staged_js; do
+  if ! node -c "$f" 2>/dev/null; then
+    echo "✗ syntax error in $f"
+    exit 1
+  fi
+done
+
+# 3. Basic HTML sanity — ensure <meta viewport> present on new HTML files
+staged_html=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.html$' || true)
+for f in $staged_html; do
+  [[ "$f" =~ ^admin/ ]] && continue
+  if ! grep -q 'meta name="viewport"' "$f"; then
+    echo "✗ $f is missing a viewport meta tag"
+    exit 1
+  fi
+done
+
+echo "✓ pre-commit checks passed"
