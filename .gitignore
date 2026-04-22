@@ -1,3 +1,10 @@
 auto-push.sh
 .DS_Store
 *.log
+node_modules/
+.env
+data/users.json
+public/uploads/*
+!public/uploads/.gitkeep
+*.mov
+*.mp4
