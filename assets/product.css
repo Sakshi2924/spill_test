@@ -98,10 +98,8 @@ nav a.back-link:hover, nav a.cart-link:hover { opacity: 1; }
   position: relative;
 }
 
-/* Gallery (left, sticky) */
+/* Gallery (left column) — scrolls naturally so it doesn't stack under the fixed nav */
 .gallery {
-  position: sticky;
-  top: calc(var(--nav-h) + 20px);
   display: grid;
   grid-template-columns: 84px 1fr;
   gap: 20px;
@@ -127,7 +125,10 @@ nav a.back-link:hover, nav a.cart-link:hover { opacity: 1; }
   background: var(--theme-soft);
   border-radius: 28px;
   overflow: hidden;
-  aspect-ratio: 4/5;
+  aspect-ratio: 4 / 3;
+  max-height: min(58vh, 520px);
+  margin: 0 auto;
+  width: 100%;
   position: relative;
   box-shadow: 0 18px 40px rgba(0,0,0,0.08);
 }
@@ -602,7 +603,6 @@ nav a.back-link:hover, nav a.cart-link:hover { opacity: 1; }
     padding: 30px clamp(20px, 4vw, 40px) 80px;
   }
   .gallery {
-    position: static;
     grid-template-columns: 1fr;
     gap: 14px;
   }
@@ -613,7 +613,7 @@ nav a.back-link:hover, nav a.cart-link:hover { opacity: 1; }
     padding-bottom: 4px;
   }
   .thumb { flex-shrink: 0; width: 70px; height: 70px; }
-  .main-image { order: 1; aspect-ratio: 4/5; }
+  .main-image { order: 1; aspect-ratio: 4 / 3; max-height: 50vh; }
   .info { padding-top: 0; }
   .story .story-grid { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr 1fr; }
