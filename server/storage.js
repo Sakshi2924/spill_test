@@ -10,7 +10,7 @@ const DEFAULT_CONTENT = {
   meta: {
     brand: 'Spill',
     tagline: 'Tea That Hits Different',
-    email: 'hello@spilltea.com',
+    email: 'hello@spillnow.in',
   },
   flavors: [
     {
