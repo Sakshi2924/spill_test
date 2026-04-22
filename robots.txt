@@ -17,4 +17,4 @@ Disallow: /admin/
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://spilltea.com/sitemap.xml
+Sitemap: https://spillnow.in/sitemap.xml

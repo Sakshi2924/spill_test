@@ -1,6 +1,6 @@
 # Deployment Guide — Spill
 
-Production deployment on a Linux server (Ubuntu 22.04/24.04 reference), sitting behind Cloudflare + Nginx. Assumes you already own `spilltea.com` and have DNS pointed at Cloudflare.
+Production deployment on a Linux server (Ubuntu 22.04/24.04 reference), sitting behind Cloudflare + Nginx. Assumes you already own `spillnow.in` and have DNS pointed at Cloudflare.
 
 ## 1. Provision the server
 
@@ -127,7 +127,7 @@ systemctl status spill    # should be active (running)
 server {
     listen 80;
     listen [::]:80;
-    server_name spilltea.com www.spilltea.com;
+    server_name spillnow.in www.spillnow.in;
     location /.well-known/acme-challenge/ { root /var/www/certbot; }
     location / { return 301 https://$host$request_uri; }
 }
@@ -139,11 +139,11 @@ limit_conn_zone $binary_remote_addr zone=spill_conn:10m;
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name spilltea.com www.spilltea.com;
+    server_name spillnow.in www.spillnow.in;
 
     # -- TLS (Certbot fills these in) --
-    ssl_certificate     /etc/letsencrypt/live/spilltea.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/spilltea.com/privkey.pem;
+    ssl_certificate     /etc/letsencrypt/live/spillnow.in/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/spillnow.in/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
     ssl_prefer_server_ciphers off;
@@ -188,14 +188,14 @@ nginx -t
 systemctl reload nginx
 
 # TLS cert
-certbot --nginx -d spilltea.com -d www.spilltea.com --redirect --non-interactive --agree-tos -m admin@spilltea.com
+certbot --nginx -d spillnow.in -d www.spillnow.in --redirect --non-interactive --agree-tos -m admin@spillnow.in
 # Certbot auto-renews via systemd timer. Verify:
 systemctl list-timers | grep certbot
 ```
 
 ## 6. Cloudflare (recommended, free tier is enough)
 
-1. **DNS** — orange-cloud (proxied) for `spilltea.com` and `www`.
+1. **DNS** — orange-cloud (proxied) for `spillnow.in` and `www`.
 2. **SSL/TLS** mode → **Full (strict)** — uses your Let's Encrypt cert end to end.
 3. **Edge Certificates** → enable *Always Use HTTPS*, *Auto Minify* OFF (we already minify our own output), *Brotli* ON.
 4. **WAF** → *Managed Rules* → enable *Cloudflare Managed Ruleset*, *OWASP Core Ruleset* (Paranoia Level 2).

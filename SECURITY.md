@@ -88,4 +88,4 @@ Multi-layer defense:
 
 ## Reporting a vulnerability
 
-Email security@spilltea.com. PGP key optional. Please give 90 days before public disclosure.
+Email security@spillnow.in. PGP key optional. Please give 90 days before public disclosure.

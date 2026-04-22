@@ -6,6 +6,7 @@
 // wiring a secret (RESEND_API_KEY, SUPABASE_URL, etc.) and sending from here.
 
 const ALLOWED_ORIGIN_SUFFIXES = ['.vercel.app'];
+const ALLOWED_HOSTS = ['spillnow.in', 'www.spillnow.in'];
 
 function checkOrigin(req) {
   const raw = req.headers.origin || req.headers.referer || '';
@@ -13,11 +14,15 @@ function checkOrigin(req) {
   let u;
   try { u = new URL(raw); } catch { return false; }
   const host = u.host;
-  // Allow the current deployed host (primary + preview) and localhost during dev.
-  if (host === req.headers.host) return true;
-  if (/^localhost(:\d+)?$/.test(host) || /^127\.0\.0\.1(:\d+)?$/.test(host)) return true;
+  // Primary production domain(s).
+  if (ALLOWED_HOSTS.includes(host)) return true;
+  // Any *.vercel.app deployment (includes preview/branch URLs).
   if (ALLOWED_ORIGIN_SUFFIXES.some(s => host.endsWith(s))) return true;
-  // Allow custom primary domain via env var if set.
+  // Localhost during dev.
+  if (/^localhost(:\d+)?$/.test(host) || /^127\.0\.0\.1(:\d+)?$/.test(host)) return true;
+  // The host that received the request (belt-and-suspenders for custom domains).
+  if (host === req.headers.host) return true;
+  // Any additional host set via env var.
   const primary = (process.env.PRIMARY_HOST || '').replace(/^https?:\/\//, '');
   if (primary && host === primary) return true;
   return false;
