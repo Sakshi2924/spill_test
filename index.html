@@ -558,27 +558,13 @@
     .marquee-section-2 {
       padding: 22px 0;
       background: var(--lime);
-      overflow: hidden;
       transform: rotate(1.5deg);
       margin: -24px -5vw;
       width: 110vw;
-      position: relative;
-      z-index: 5;
-    }
-    .marquee-track-2 {
-      display: flex; width: max-content;
-      animation: marqueeScroll2 14s linear infinite;
     }
     .marquee-track-2 span {
-      font-family: 'Chomp Oblique', serif; font-style: italic;
-      font-size: clamp(1.1rem, 2.8vw, 2rem);
       color: var(--green);
-      white-space: nowrap;
       padding: 0 28px;
-    }
-    @keyframes marqueeScroll2 {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
     }
 
     /* ---- FOOTER ---- */
