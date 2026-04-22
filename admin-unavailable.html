@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#19532b">
+  <title>Admin Unavailable — Spill</title>
+  <link rel="icon" href="/Spill.png" type="image/png">
+  <link rel="stylesheet" href="/assets/inner.css">
+  <style>
+    nav[aria-label="Primary"] { background: var(--green); color: var(--cream); }
+    nav[aria-label="Primary"] .logo-nav { color: var(--yellow); }
+    nav[aria-label="Primary"] .nav-links a { color: var(--cream); }
+    .hamburger span { background: var(--cream); }
+    .page-header { background: var(--green); }
+    .page-header h1 { color: var(--yellow); }
+    .page-header .bg-accent { color: rgba(255,202,38,0.06); }
+    .page-header::after { background: linear-gradient(to bottom, var(--green), var(--cream)); }
+    .content h2 { color: var(--red); }
+    .content a.inline { color: var(--orange); text-decoration: underline; }
+    .content code {
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-size: 0.88em;
+      background: rgba(25,83,43,0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .cta-back {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 14px 32px;
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: 1.05rem;
+      color: var(--cream);
+      background: var(--green);
+      border: none; border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 4px 4px 0 var(--yellow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      padding-right: calc(32px + 0.15em);
+    }
+    .cta-back:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--yellow); }
+  </style>
+  <script src="/assets/nav.js" defer></script>
+</head>
+<body>
+  <nav aria-label="Primary">
+    <a href="/" class="logo-nav">Spill</a>
+    <ul class="nav-links">
+      <li><a href="/#brew">Our Brews</a></li>
+      <li class="has-dropdown">
+        <a href="/#flavours" class="nav-parent" aria-haspopup="true" aria-expanded="false">Flavours <span class="caret" aria-hidden="true">▾</span></a>
+        <ul class="dropdown" aria-label="Flavours">
+          <li><a href="/flavours/masala-mayhem.html">Masala Mayhem</a></li>
+          <li><a href="/flavours/mint-riot.html">Mint Riot</a></li>
+          <li><a href="/flavours/ginger-snap.html">Ginger Snap</a></li>
+          <li><a href="/flavours/berry-burst.html">Berry Burst</a></li>
+          <li><a href="/flavours/classic-chaos.html">Classic Chaos</a></li>
+        </ul>
+      </li>
+      <li><a href="/contact.html">Contact</a></li>
+      <li class="has-dropdown">
+        <a href="#" class="nav-parent" aria-haspopup="true" aria-expanded="false">Policies <span class="caret" aria-hidden="true">▾</span></a>
+        <ul class="dropdown" aria-label="Policies">
+          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="/shipping-returns.html">Shipping &amp; Returns</a></li>
+          <li><a href="/refund-policy.html">Refund Policy</a></li>
+          <li><a href="/terms.html">Terms</a></li>
+        </ul>
+      </li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Main menu">
+    <a href="/#brew" data-close>Our Brews</a>
+    <details class="mm-group">
+      <summary>Flavours</summary>
+      <div class="mm-sub">
+        <a href="/flavours/masala-mayhem.html" data-close>Masala Mayhem</a>
+        <a href="/flavours/mint-riot.html" data-close>Mint Riot</a>
+        <a href="/flavours/ginger-snap.html" data-close>Ginger Snap</a>
+        <a href="/flavours/berry-burst.html" data-close>Berry Burst</a>
+        <a href="/flavours/classic-chaos.html" data-close>Classic Chaos</a>
+      </div>
+    </details>
+    <a href="/contact.html" data-close>Contact</a>
+    <details class="mm-group">
+      <summary>Policies</summary>
+      <div class="mm-sub">
+        <a href="/privacy-policy.html" data-close>Privacy Policy</a>
+        <a href="/shipping-returns.html" data-close>Shipping &amp; Returns</a>
+        <a href="/refund-policy.html" data-close>Refund Policy</a>
+        <a href="/terms.html" data-close>Terms</a>
+      </div>
+    </details>
+  </div>
+
+  <header class="page-header">
+    <h1>Admin Not Here</h1>
+    <span class="bg-accent" aria-hidden="true">Admin</span>
+  </header>
+
+  <main class="content content-center">
+    <h2>The admin console runs on a separate server</h2>
+    <p>This static deployment serves the public site only. The admin dashboard — with image uploads, content editing, and authentication — needs a long-running Node process with persistent storage, which static hosting can&apos;t provide.</p>
+
+    <h2>To access the admin</h2>
+    <p>Run it locally with <code>npm start</code>, or deploy the repo to a Node-capable host such as Railway, Fly.io, Render, or a VM. See <code>DEPLOYMENT.md</code> in the repository for a walkthrough.</p>
+
+    <p style="margin-top: 30px;">
+      <a class="cta-back" href="/">Back to the site</a>
+    </p>
+  </main>
+
+  <footer class="site-footer" id="footer-policies">
+    <div class="footer-bg-text" aria-hidden="true">Spill</div>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h2>Spill</h2>
+        <p>Tea that&apos;s bold, chaotic, and unapologetically loud. We don&apos;t do boring.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/#brew">Our Brews</a></li>
+          <li><a href="/#flavours">Flavours</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="/flavours/masala-mayhem.html">Masala Mayhem</a></li>
+          <li><a href="/flavours/mint-riot.html">Mint Riot</a></li>
+          <li><a href="/flavours/ginger-snap.html">Ginger Snap</a></li>
+          <li><a href="/flavours/berry-burst.html">Berry Burst</a></li>
+          <li><a href="/flavours/classic-chaos.html">Classic Chaos</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Policies</h4>
+        <ul>
+          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="/shipping-returns.html">Shipping &amp; Returns</a></li>
+          <li><a href="/refund-policy.html">Refund Policy</a></li>
+          <li><a href="/terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Spill Tea Co. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
