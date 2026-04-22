@@ -1,0 +1,154 @@
+/* Spill — shared inner-page stylesheet (contact, policies, product pages) */
+
+@font-face {
+  font-family: 'Chomp';
+  src: url('../ChompRegular-V4Dge.otf') format('opentype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Chomp Oblique';
+  src: url('../ChompOblique-JpByK.ttf') format('truetype');
+  font-weight: normal; font-style: italic; font-display: swap;
+}
+
+:root {
+  --yellow: #ffca26;
+  --cream:  #f3e8cc;
+  --orange: #f86015;
+  --red:    #d42518;
+  --green:  #19532b;
+  --lime:   #9abc04;
+  --ink:    #161616;
+  --nav-h:  72px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+body {
+  font-family: 'Chomp', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--green);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.55;
+}
+
+img { max-width: 100%; display: block; }
+
+/* ---- NAV ---- */
+nav {
+  position: fixed; top: 0; left: 0; width: 100%;
+  z-index: 1000;
+  padding: 18px clamp(20px, 4vw, 40px);
+  display: flex; justify-content: space-between; align-items: center;
+  min-height: var(--nav-h);
+  backdrop-filter: saturate(1.2);
+}
+nav a.logo-nav {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  text-decoration: none;
+  letter-spacing: 2px;
+  padding-right: 0.15em;
+}
+nav a.back-link {
+  font-size: 0.85rem;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity .3s;
+}
+nav a.back-link:hover { opacity: 1; }
+
+/* ---- PAGE HEADER ---- */
+.page-header {
+  padding: calc(var(--nav-h) + 48px) clamp(20px, 4vw, 40px) 100px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-header h1 {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(2.4rem, 8vw, 6rem);
+  position: relative; z-index: 2;
+  line-height: 1.05;
+  padding: 0 0.15em;
+  word-break: break-word;
+  hyphens: auto;
+}
+.page-header .bg-accent {
+  position: absolute;
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(8rem, 22vw, 15rem);
+  bottom: -40px; left: -20px;
+  pointer-events: none;
+  white-space: nowrap;
+  padding-right: 0.2em;
+}
+.page-header::after {
+  content: ''; position: absolute;
+  bottom: -80px; left: 0;
+  width: 100%; height: 160px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---- CONTENT ---- */
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 80px clamp(20px, 5vw, 40px) 100px;
+}
+.content-center { text-align: center; }
+.content p.meta {
+  font-size: 0.8rem;
+  opacity: 0.55;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.content h2 {
+  font-family: 'Chomp Oblique', serif; font-style: italic;
+  font-size: clamp(1.4rem, 4vw, 1.7rem);
+  margin: 40px 0 14px;
+  padding-right: 0.12em;
+  line-height: 1.2;
+}
+.content p {
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  line-height: 1.7;
+  color: var(--green);
+  margin-bottom: 14px;
+  opacity: 0.88;
+  word-break: break-word;
+  hyphens: auto;
+}
+.content a.inline { transition: color .3s; }
+
+/* ---- FOOTER ---- */
+.site-footer {
+  background: var(--green);
+  padding: 36px clamp(20px, 4vw, 40px);
+  text-align: center;
+}
+.site-footer p {
+  font-size: 0.75rem;
+  color: var(--cream);
+  opacity: 0.55;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 560px) {
+  .page-header .bg-accent { font-size: clamp(5rem, 28vw, 10rem); bottom: -20px; }
+  nav { padding: 14px 18px; }
+  nav a.back-link { font-size: 0.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+  html { scroll-behavior: auto; }
+}

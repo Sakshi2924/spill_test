@@ -2,51 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shipping & Returns - Spill</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Spill Shipping & Returns — how we ship, how you return.">
+  <meta name="theme-color" content="#f86015">
+  <title>Shipping &amp; Returns — Spill</title>
+  <link rel="icon" href="Spill.png" type="image/png">
+  <link rel="stylesheet" href="assets/inner.css">
   <style>
-    @font-face { font-family: 'Chomp'; src: url('ChompRegular-V4Dge.otf') format('opentype'); }
-    @font-face { font-family: 'Chomp Oblique'; src: url('ChompOblique-JpByK.ttf') format('truetype'); font-style: italic; }
-    :root { --yellow: #ffca26; --cream: #f3e8cc; --orange: #f86015; --red: #d42518; --green: #19532b; --lime: #9abc04; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Chomp', sans-serif; background: var(--cream); color: var(--green); overflow-x: hidden; }
-    .page-header { background: var(--orange); padding: 120px 40px 80px; text-align: center; position: relative; overflow: hidden; }
-    .page-header h1 { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: clamp(2.5rem, 8vw, 5rem); color: var(--cream); position: relative; z-index: 2; }
-    .page-header .bg-accent { position: absolute; font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 12rem; color: rgba(243,232,204,0.08); bottom: -30px; left: -20px; pointer-events: none; }
-    .page-header::after { content: ''; position: absolute; bottom: -80px; left: 0; width: 100%; height: 160px; background: linear-gradient(to bottom, var(--orange), var(--cream)); pointer-events: none; }
-    nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: var(--orange); }
-    nav a.logo-nav { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 1.8rem; color: var(--yellow); text-decoration: none; }
-    nav a.back-link { font-family: 'Chomp', sans-serif; font-size: 0.85rem; color: var(--cream); text-decoration: none; opacity: 0.7; transition: opacity 0.3s; }
-    nav a.back-link:hover { opacity: 1; }
-    .content { max-width: 800px; margin: 0 auto; padding: 80px 40px 100px; }
-    .content h2 { font-family: 'Chomp Oblique', sans-serif; font-style: italic; font-size: 1.6rem; color: var(--orange); margin: 40px 0 15px; }
-    .content p { font-family: 'Chomp', sans-serif; font-size: 0.9rem; line-height: 1.7; color: var(--green); margin-bottom: 15px; opacity: 0.85; }
-    footer { background: var(--green); padding: 30px 40px; text-align: center; }
-    footer p { font-family: 'Chomp', sans-serif; font-size: 0.75rem; color: var(--cream); opacity: 0.5; }
+    .page-header { background: var(--orange); }
+    .page-header h1 { color: var(--cream); }
+    .page-header .bg-accent { color: rgba(243,232,204,0.1); }
+    .page-header::after { background: linear-gradient(to bottom, var(--orange), var(--cream)); }
+    nav { background: var(--orange); }
+    nav a.logo-nav { color: var(--yellow); }
+    nav a.back-link { color: var(--cream); }
+    .content h2 { color: var(--orange); }
+    .content a.inline { color: var(--red); text-decoration: underline; word-break: break-word; }
   </style>
 </head>
 <body>
-  <nav>
+  <nav aria-label="Primary">
     <a href="index.html" class="logo-nav">Spill</a>
-    <a href="index.html" class="back-link">&larr; Back To Home</a>
+    <a href="index.html" class="back-link">&larr; Back to home</a>
   </nav>
-  <div class="page-header">
-    <h1>Shipping & Returns</h1>
-    <span class="bg-accent">Ship It</span>
-  </div>
-  <div class="content">
+
+  <header class="page-header">
+    <h1>Shipping &amp; Returns</h1>
+    <span class="bg-accent" aria-hidden="true">Ship&nbsp;It</span>
+  </header>
+
+  <main class="content">
     <h2>Shipping</h2>
-    <p>We Ship Across India. Orders Are Dispatched Within 2-3 Business Days. Standard Delivery Takes 5-7 Business Days Depending On Your Location.</p>
+    <p>We ship across India. Orders are dispatched within 2–3 business days. Standard delivery takes 5–7 business days depending on your location.</p>
+
     <h2>Tracking</h2>
-    <p>Once Your Order Ships, You'll Receive A Tracking Link Via Email So You Can Follow Your Tea On Its Journey.</p>
+    <p>Once your order ships you&apos;ll receive a tracking link via email so you can follow your tea on its journey.</p>
+
     <h2>Returns</h2>
-    <p>Not Vibing With Your Order? You Can Initiate A Return Within 7 Days Of Delivery, Provided The Product Is Unopened And In Its Original Packaging.</p>
+    <p>Not vibing with your order? You can initiate a return within 7 days of delivery, provided the product is unopened and in its original packaging.</p>
+
     <h2>Damaged Goods</h2>
-    <p>If Your Order Arrives Damaged, Snap A Photo And Email Us. We'll Sort It Out Faster Than You Can Brew A Cup.</p>
-    <h2>Questions?</h2>
-    <p>Hit Us Up At <a href="mailto:hello@spilltea.com" style="color: var(--red);">Hello@Spilltea.Com</a></p>
-  </div>
-  <footer><p>&copy; 2026 Spill Tea Co. All Rights Reserved.</p></footer>
+    <p>If your order arrives damaged, snap a photo and email us. We&apos;ll sort it out faster than you can brew a cup.</p>
+
+    <h2>International</h2>
+    <p>International shipping is coming soon. Want to be notified? Drop us a line.</p>
+
+    <h2>Questions</h2>
+    <p>Hit us up at <a class="inline" href="mailto:hello@spilltea.com">hello@spilltea.com</a>.</p>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Spill Tea Co. All rights reserved.</p>
+  </footer>
 </body>
 </html>

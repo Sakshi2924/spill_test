@@ -2,478 +2,354 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spill - Tea That Hits Different</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Spill — Tea That Hits Different. Bold, chaotic, brewed wild.">
+  <meta name="theme-color" content="#f86015">
+  <title>Spill — Tea That Hits Different</title>
+
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="icon" href="Spill.png" type="image/png">
+
   <style>
     @font-face {
       font-family: 'Chomp';
       src: url('ChompRegular-V4Dge.otf') format('opentype');
       font-weight: normal;
       font-style: normal;
+      font-display: swap;
     }
     @font-face {
       font-family: 'Chomp Oblique';
       src: url('ChompOblique-JpByK.ttf') format('truetype');
       font-weight: normal;
       font-style: italic;
+      font-display: swap;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --yellow: #ffca26;
-      --cream: #f3e8cc;
+      --cream:  #f3e8cc;
       --orange: #f86015;
-      --red: #d42518;
-      --green: #19532b;
-      --lime: #9abc04;
+      --red:    #d42518;
+      --green:  #19532b;
+      --lime:   #9abc04;
+      --ink:    #161616;
+      --nav-h:  72px;
     }
 
     html {
       scroll-behavior: smooth;
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
     body {
-      font-family: 'Chomp', sans-serif;
+      font-family: 'Chomp', system-ui, sans-serif;
       background: var(--cream);
       color: var(--green);
-      overflow-x: hidden;
-      cursor: default;
+      overflow-x: clip;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
-    /* ---- CUSTOM CURSOR ---- */
+    /* Italic characters (esp. terminal 'l') extend beyond their logical box.
+       Apply this to any italic text inside a container with overflow:hidden
+       or constrained width to prevent the tail from being clipped. */
+    .italic, .oblique {
+      font-family: 'Chomp Oblique', serif;
+      font-style: italic;
+      padding-right: 0.12em;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ---- PAGE LOADER ---- */
+    .page-loader {
+      position: fixed; inset: 0;
+      background: var(--orange);
+      z-index: 9999;
+      display: flex; justify-content: center; align-items: center;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+    .page-loader.done { opacity: 0; visibility: hidden; }
+    .loader-text {
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(3rem, 10vw, 8rem);
+      color: var(--yellow);
+      padding-right: 0.15em;
+      animation: loaderPulse .6s ease infinite alternate;
+    }
+    @keyframes loaderPulse {
+      from { transform: scale(1); opacity: .75; }
+      to   { transform: scale(1.05); opacity: 1; }
+    }
+
+    /* ---- CURSOR ---- */
     .cursor-dot {
-      position: fixed;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 10000;
+      position: fixed; width: 14px; height: 14px; border-radius: 50%;
+      pointer-events: none; z-index: 10000;
       mix-blend-mode: difference;
       background: var(--yellow);
-      transition: transform 0.15s ease;
+      transition: transform .15s ease;
+      will-change: transform;
     }
+    @media (hover: none), (pointer: coarse) { .cursor-dot { display: none; } }
 
-    /* ---- NAVIGATION ---- */
+    /* ---- NAV ---- */
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      padding: 18px clamp(20px, 4vw, 40px);
+      display: flex; justify-content: space-between; align-items: center;
       mix-blend-mode: difference;
+      min-height: var(--nav-h);
     }
-
     nav .logo-nav {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: 1.8rem;
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(1.4rem, 2.2vw, 1.8rem);
       color: var(--yellow);
       text-decoration: none;
       letter-spacing: 2px;
+      padding-right: 0.15em;
     }
-
     nav .nav-links {
-      display: flex;
-      gap: 30px;
-      list-style: none;
+      display: flex; gap: 28px; list-style: none;
     }
-
     nav .nav-links a {
-      font-family: 'Chomp', sans-serif;
       font-size: 0.85rem;
       color: var(--cream);
       text-decoration: none;
       letter-spacing: 1.5px;
       text-transform: capitalize;
-      transition: color 0.3s ease;
       position: relative;
+      transition: color .3s ease;
     }
-
     nav .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--yellow);
-      transition: width 0.3s ease;
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2px; background: var(--yellow);
+      transition: width .3s ease;
     }
+    nav .nav-links a:hover::after { width: 100%; }
+    nav .nav-links a:hover { color: var(--yellow); }
 
-    nav .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    nav .nav-links a:hover {
-      color: var(--yellow);
-    }
-
-    /* ---- HAMBURGER (mobile) ---- */
     .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      z-index: 1001;
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; z-index: 1001;
+      background: transparent; border: 0; padding: 6px;
     }
     .hamburger span {
-      width: 28px;
-      height: 3px;
-      background: var(--cream);
-      transition: all 0.3s ease;
-      border-radius: 2px;
+      width: 28px; height: 3px; background: var(--cream);
+      border-radius: 2px; transition: all .3s ease;
     }
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 6px);
-    }
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -6px);
-    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
 
     .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
+      display: none; position: fixed; inset: 0;
       background: var(--green);
       z-index: 999;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
+      flex-direction: column; justify-content: center; align-items: center;
+      gap: 24px; padding: 40px;
     }
-    .mobile-menu.open {
-      display: flex;
-    }
+    .mobile-menu.open { display: flex; }
     .mobile-menu a {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: 2.5rem;
-      color: var(--yellow);
-      text-decoration: none;
-      text-transform: capitalize;
-      transition: color 0.3s, transform 0.3s;
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(1.8rem, 6vw, 2.5rem);
+      color: var(--yellow); text-decoration: none;
+      padding-right: 0.15em;
+      transition: color .3s, transform .3s;
     }
-    .mobile-menu a:hover {
-      color: var(--orange);
-      transform: rotate(-3deg) scale(1.1);
-    }
+    .mobile-menu a:hover { color: var(--orange); transform: rotate(-3deg) scale(1.05); }
 
     /* ---- HERO ---- */
     .hero {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      position: relative; min-height: 100vh;
+      display: flex; justify-content: center; align-items: center;
       background: var(--orange);
       overflow: hidden;
+      padding: 120px 20px 80px;
     }
-
     .hero-bg-text {
       position: absolute;
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: clamp(6rem, 20vw, 22rem);
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(4rem, 18vw, 22rem);
       white-space: nowrap;
       user-select: none;
       pointer-events: none;
+      padding-right: 0.15em;
     }
-
     .hero-bg-text.top {
-      top: 5%;
-      left: -5%;
-      transform: rotate(-5deg);
+      top: 8%; left: -5%; transform: rotate(-5deg);
       color: rgba(212, 37, 24, 0.25);
     }
-
     .hero-bg-text.bottom {
-      bottom: 5%;
-      right: -5%;
-      transform: rotate(-5deg);
+      bottom: 8%; right: -5%; transform: rotate(-5deg);
       color: rgba(255, 202, 38, 0.2);
     }
-
-    .hero-center {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-    }
-
+    .hero-center { position: relative; z-index: 2; text-align: center; max-width: 100%; }
     .hero-logo {
-      width: clamp(250px, 45vw, 550px);
+      width: clamp(220px, 45vw, 550px);
       filter: drop-shadow(4px 8px 0px var(--red));
-      transition: transform 0.4s ease;
+      transition: transform .4s ease;
+      will-change: transform;
     }
-
-    .hero-logo:hover {
-      transform: rotate(-5deg) scale(1.05);
-    }
-
     .hero-tagline {
-      font-family: 'Chomp', sans-serif;
-      font-size: clamp(1rem, 2.5vw, 1.8rem);
+      font-size: clamp(0.95rem, 2.2vw, 1.6rem);
       color: var(--cream);
       margin-top: 20px;
       letter-spacing: 3px;
       opacity: 0;
       transform: translateY(30px);
     }
-
     .hero-scroll-hint {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
+      position: absolute; bottom: 32px; left: 50%;
       transform: translateX(-50%);
       z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
       color: var(--cream);
-      font-family: 'Chomp', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 2px;
+      font-size: 0.72rem; letter-spacing: 2px;
       opacity: 0;
-      animation: fadeInUp 1s ease 1.5s forwards;
+      animation: fadeIn 1s ease 1.5s forwards;
     }
-
     .scroll-arrow {
-      width: 20px;
-      height: 20px;
+      width: 18px; height: 18px;
       border-right: 2px solid var(--cream);
       border-bottom: 2px solid var(--cream);
       transform: rotate(45deg);
       animation: bounceDown 1.5s ease infinite;
     }
-
     @keyframes bounceDown {
-      0%, 100% { transform: rotate(45deg) translateY(0); }
+      0%,100% { transform: rotate(45deg) translateY(0); }
       50% { transform: rotate(45deg) translateY(8px); }
     }
-
-    @keyframes fadeInUp {
-      to { opacity: 1; }
-    }
-
-    /* ---- FLOATING SHAPES (decorative) ---- */
-    .floating-shapes {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-
-    .shape {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.07;
-    }
+    @keyframes fadeIn { to { opacity: 1; } }
 
     /* ---- MARQUEE ---- */
     .marquee-section {
-      padding: 30px 0;
+      padding: 28px 0;
       background: var(--red);
       overflow: hidden;
-      transform: rotate(-2deg) scale(1.05);
-      margin: -20px 0;
+      transform: rotate(-2deg);
+      margin: -24px -5vw;
+      width: 110vw;
       position: relative;
       z-index: 5;
     }
-
     .marquee-track {
       display: flex;
       width: max-content;
-      animation: marqueeScroll 15s linear infinite;
+      animation: marqueeScroll 18s linear infinite;
     }
-
     .marquee-track span {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: clamp(1.5rem, 4vw, 3rem);
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(1.2rem, 3.5vw, 2.6rem);
       color: var(--yellow);
       white-space: nowrap;
-      padding: 0 40px;
+      padding: 0 32px;
     }
-
     @keyframes marqueeScroll {
-      0% { transform: translateX(0); }
+      0%   { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
 
-    /* ---- SECTION: WHAT WE BREW ---- */
+    /* ---- WHAT WE BREW ---- */
     .brew-section {
       position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 100px 40px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 120px clamp(20px, 4vw, 40px) 120px;
       background: var(--cream);
       overflow: hidden;
     }
-
     .brew-section::before {
-      content: '';
-      position: absolute;
-      top: -80px;
-      left: 0;
-      width: 100%;
-      height: 160px;
+      content: ''; position: absolute; top: -80px; left: 0; width: 100%; height: 160px;
       background: linear-gradient(to bottom, var(--red), var(--cream));
-      z-index: 1;
       pointer-events: none;
+      transform: rotate(-2deg) translateY(-20px);
     }
-
     .section-title {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: clamp(3rem, 10vw, 9rem);
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(2.6rem, 10vw, 9rem);
       text-align: center;
       line-height: 0.95;
-      position: relative;
-      z-index: 2;
+      position: relative; z-index: 2;
+      padding: 0 0.15em;
     }
-
     .title-word {
       display: inline-block;
       opacity: 0;
       transform: translateY(80px) rotate(5deg);
     }
-
     .brew-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
       width: 100%;
       max-width: 1100px;
       margin-top: 60px;
-      position: relative;
-      z-index: 2;
+      position: relative; z-index: 2;
     }
-
     .brew-card {
       background: var(--green);
       color: var(--cream);
-      padding: 50px 35px;
+      padding: 44px 28px;
       border-radius: 20px;
       text-align: center;
-      transform: translateY(60px) rotate(0deg);
       opacity: 0;
-      transition: transform 0.5s ease, box-shadow 0.3s ease;
+      transform: translateY(60px);
+      transition: transform .4s ease, box-shadow .3s ease;
       position: relative;
       overflow: hidden;
     }
-
     .brew-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,202,38,0.1) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.5s ease;
+      content: ''; position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(255,202,38,0.1), transparent 70%);
+      opacity: 0; transition: opacity .5s ease;
     }
-
-    .brew-card:hover::before {
-      opacity: 1;
-    }
-
-    .brew-card:hover {
-      transform: translateY(-5px) rotate(-1deg) !important;
-      box-shadow: 8px 8px 0 var(--yellow);
-    }
-
-    .brew-card:nth-child(2) {
-      background: var(--red);
-    }
-
-    .brew-card:nth-child(3) {
-      background: var(--orange);
-    }
-
-    .brew-card .card-emoji {
-      font-size: 3.5rem;
-      margin-bottom: 15px;
-      display: block;
-    }
-
+    .brew-card:hover::before { opacity: 1; }
+    .brew-card:hover { transform: translateY(-5px) rotate(-1deg) !important; box-shadow: 8px 8px 0 var(--yellow); }
+    .brew-card:nth-child(2) { background: var(--red); }
+    .brew-card:nth-child(3) { background: var(--orange); }
+    .brew-card .card-emoji { font-size: 3.2rem; margin-bottom: 12px; display: block; }
     .brew-card h3 {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-      color: var(--yellow);
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: 1.6rem; margin-bottom: 10px; color: var(--yellow);
+      padding-right: 0.12em;
     }
+    .brew-card p { font-size: 0.95rem; line-height: 1.5; opacity: 0.9; }
 
-    .brew-card p {
-      font-family: 'Chomp', sans-serif;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      color: var(--cream);
-      opacity: 0.9;
-    }
-
-    /* ---- SECTION: BIG STATEMENT ---- */
+    /* ---- STATEMENT ---- */
     .statement-section {
       position: relative;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      min-height: 90vh;
+      display: flex; justify-content: center; align-items: center;
       background: var(--green);
       overflow: hidden;
-      padding: 80px 40px;
+      padding: 100px clamp(20px, 4vw, 40px);
     }
-
     .statement-section::before {
-      content: '';
-      position: absolute;
-      top: -80px;
-      left: 0;
-      width: 100%;
-      height: 160px;
+      content: ''; position: absolute; top: -80px; left: 0; width: 100%; height: 160px;
       background: linear-gradient(to bottom, var(--cream), var(--green));
-      z-index: 1;
       pointer-events: none;
     }
-
     .statement-inner {
-      text-align: center;
-      max-width: 900px;
-      position: relative;
-      z-index: 2;
+      text-align: center; max-width: 900px;
+      position: relative; z-index: 2;
+      padding: 0 0.15em;
     }
-
     .statement-line {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: clamp(2.5rem, 8vw, 7rem);
-      line-height: 1;
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(2.2rem, 8vw, 7rem);
+      line-height: 1.05;
       opacity: 0;
       transform: translateX(-100px);
+      padding-right: 0.12em;
     }
-
     .statement-line:nth-child(1) { color: var(--yellow); }
     .statement-line:nth-child(2) { color: var(--cream); }
     .statement-line:nth-child(3) { color: var(--lime); }
-
     .statement-accent {
       position: absolute;
       width: clamp(100px, 20vw, 250px);
@@ -482,226 +358,198 @@
       opacity: 0.15;
       z-index: 0;
     }
+    .statement-accent.a1 { background: var(--orange); top: -10%; right: -10%; }
+    .statement-accent.a2 { background: var(--yellow); bottom: -10%; left: -10%; }
 
-    .statement-accent.a1 {
-      background: var(--orange);
-      top: -10%;
-      right: -10%;
-    }
-
-    .statement-accent.a2 {
-      background: var(--yellow);
-      bottom: -10%;
-      left: -10%;
-    }
-
-    /* ---- SECTION: HORIZONTAL SCROLL FLAVORS ---- */
+    /* ---- FLAVORS (horizontal on desktop, grid on mobile) ---- */
     .flavors-section {
       position: relative;
       overflow: hidden;
       background: var(--yellow);
-      padding: 0;
     }
-
     .flavors-section::before {
-      content: '';
-      position: absolute;
-      top: -80px;
-      left: 0;
-      width: 100%;
-      height: 160px;
+      content: ''; position: absolute; top: -80px; left: 0; width: 100%; height: 160px;
       background: linear-gradient(to bottom, var(--green), var(--yellow));
-      z-index: 1;
       pointer-events: none;
+      z-index: 1;
     }
-
+    .flavors-header {
+      padding: 100px clamp(20px, 4vw, 40px) 40px;
+      text-align: center;
+      position: relative; z-index: 2;
+    }
+    .flavors-header h2 {
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      color: var(--green);
+      padding-right: 0.15em;
+    }
+    .flavors-header p {
+      color: var(--green); opacity: 0.75;
+      max-width: 600px; margin: 16px auto 0;
+      letter-spacing: 1px;
+    }
     .flavors-sticky {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
+      position: sticky; top: 0; height: 100vh;
+      display: flex; align-items: center;
       overflow: hidden;
     }
-
     .flavors-track {
-      display: flex;
-      gap: 40px;
-      padding: 0 80px;
+      display: flex; gap: 36px;
+      padding: 0 clamp(30px, 6vw, 80px);
       will-change: transform;
     }
-
     .flavor-item {
       flex-shrink: 0;
-      width: clamp(300px, 35vw, 450px);
-      height: clamp(350px, 50vh, 500px);
+      width: clamp(280px, 35vw, 430px);
+      height: clamp(340px, 50vh, 500px);
       border-radius: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 40px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 36px;
       position: relative;
       overflow: hidden;
-      transition: transform 0.4s ease;
+      text-decoration: none;
+      color: inherit;
+      transition: transform .4s ease, box-shadow .3s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     }
-
-    .flavor-item:hover {
-      transform: rotate(-2deg) scale(1.03);
-    }
-
+    .flavor-item:hover { transform: rotate(-2deg) scale(1.03); box-shadow: 0 12px 36px rgba(0,0,0,0.18); }
     .flavor-item:nth-child(1) { background: var(--red); }
     .flavor-item:nth-child(2) { background: var(--green); }
     .flavor-item:nth-child(3) { background: var(--orange); }
     .flavor-item:nth-child(4) { background: var(--red); }
     .flavor-item:nth-child(5) { background: var(--green); }
-
     .flavor-item .flavor-number {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: clamp(5rem, 10vw, 10rem);
-      color: rgba(255,255,255,0.1);
+      position: absolute; top: 16px; right: 26px;
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(4rem, 9vw, 9rem);
+      color: rgba(255,255,255,0.12);
       line-height: 1;
+      padding-right: 0.1em;
     }
-
     .flavor-item h3 {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
       color: var(--yellow);
-      position: relative;
-      z-index: 2;
+      position: relative; z-index: 2;
+      padding-right: 0.12em;
     }
-
     .flavor-item p {
-      font-family: 'Chomp', sans-serif;
       font-size: 0.9rem;
       color: var(--cream);
       margin-top: 8px;
-      position: relative;
-      z-index: 2;
       opacity: 0.85;
+      position: relative; z-index: 2;
+    }
+    .flavor-item .shop-cue {
+      margin-top: 14px;
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--yellow);
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative; z-index: 2;
+    }
+    .flavor-item .shop-cue::after {
+      content: '→';
+      transition: transform .3s ease;
+    }
+    .flavor-item:hover .shop-cue::after { transform: translateX(6px); }
+
+    .flavors-grid {
+      display: none;
     }
 
-    /* ---- SECTION: CTA ---- */
+    /* ---- CTA ---- */
     .cta-section {
       position: relative;
       min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
       background: var(--red);
-      padding: 80px 40px;
+      padding: 100px clamp(20px, 4vw, 40px);
       text-align: center;
       overflow: hidden;
     }
-
     .cta-section::before {
-      content: '';
-      position: absolute;
-      top: -80px;
-      left: 0;
-      width: 100%;
-      height: 160px;
+      content: ''; position: absolute; top: -80px; left: 0; width: 100%; height: 160px;
       background: linear-gradient(to bottom, var(--yellow), var(--red));
-      z-index: 1;
       pointer-events: none;
     }
-
     .cta-big {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: clamp(3rem, 12vw, 10rem);
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(3rem, 11vw, 10rem);
       color: var(--yellow);
-      line-height: 0.9;
-      position: relative;
-      z-index: 2;
+      line-height: 0.95;
+      position: relative; z-index: 2;
       opacity: 0;
       transform: scale(0.8);
+      padding: 0 0.15em;
     }
-
     .cta-sub {
-      font-family: 'Chomp', sans-serif;
       font-size: clamp(0.9rem, 2vw, 1.3rem);
       color: var(--cream);
-      margin-top: 30px;
+      margin-top: 24px;
       letter-spacing: 2px;
-      position: relative;
-      z-index: 2;
+      position: relative; z-index: 2;
       opacity: 0;
+      max-width: 600px;
     }
-
     .cta-button {
       display: inline-block;
-      margin-top: 40px;
-      padding: 18px 50px;
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: 1.3rem;
+      margin-top: 36px;
+      padding: 16px 44px;
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: 1.2rem;
       color: var(--red);
       background: var(--yellow);
-      border: none;
-      border-radius: 50px;
-      text-decoration: none;
-      cursor: pointer;
-      position: relative;
-      z-index: 2;
-      transition: all 0.3s ease;
+      border: none; border-radius: 50px;
+      text-decoration: none; cursor: pointer;
+      position: relative; z-index: 2;
+      transition: all .3s ease;
       box-shadow: 4px 4px 0 var(--green);
       opacity: 0;
+      padding-right: calc(44px + 0.15em);
     }
-
     .cta-button:hover {
       transform: translate(-2px, -2px);
       box-shadow: 8px 8px 0 var(--green);
       background: var(--cream);
     }
-
     .cta-spin {
       position: absolute;
-      width: clamp(250px, 40vw, 500px);
-      height: clamp(250px, 40vw, 500px);
+      width: clamp(240px, 40vw, 500px);
+      height: clamp(240px, 40vw, 500px);
       border: 3px dashed rgba(255, 202, 38, 0.2);
       border-radius: 50%;
       animation: spinSlow 20s linear infinite;
       z-index: 0;
     }
+    @keyframes spinSlow { to { transform: rotate(360deg); } }
 
-    @keyframes spinSlow {
-      to { transform: rotate(360deg); }
-    }
-
-    /* ---- SECOND MARQUEE ---- */
+    /* ---- MARQUEE 2 ---- */
     .marquee-section-2 {
-      padding: 25px 0;
+      padding: 22px 0;
       background: var(--lime);
       overflow: hidden;
-      transform: rotate(1.5deg) scale(1.05);
-      margin: -20px 0;
+      transform: rotate(1.5deg);
+      margin: -24px -5vw;
+      width: 110vw;
       position: relative;
       z-index: 5;
     }
-
     .marquee-track-2 {
-      display: flex;
-      width: max-content;
-      animation: marqueeScroll2 12s linear infinite;
+      display: flex; width: max-content;
+      animation: marqueeScroll2 14s linear infinite;
     }
-
     .marquee-track-2 span {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: clamp(1.2rem, 3vw, 2.2rem);
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(1.1rem, 2.8vw, 2rem);
       color: var(--green);
       white-space: nowrap;
-      padding: 0 30px;
+      padding: 0 28px;
     }
-
     @keyframes marqueeScroll2 {
-      0% { transform: translateX(0); }
+      0%   { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
 
@@ -710,253 +558,189 @@
       position: relative;
       background: var(--green);
       color: var(--cream);
-      padding: 80px 40px 40px;
+      padding: 100px clamp(20px, 4vw, 40px) 40px;
       overflow: hidden;
     }
-
     footer::before {
-      content: '';
-      position: absolute;
-      top: -80px;
-      left: 0;
-      width: 100%;
-      height: 160px;
+      content: ''; position: absolute; top: -80px; left: 0; width: 100%; height: 160px;
       background: linear-gradient(to bottom, var(--red), var(--green));
-      z-index: 1;
       pointer-events: none;
     }
-
     .footer-content {
-      position: relative;
-      z-index: 2;
-      max-width: 1200px;
-      margin: 0 auto;
+      position: relative; z-index: 2;
+      max-width: 1200px; margin: 0 auto;
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 60px;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
     }
-
     .footer-brand h2 {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: clamp(3rem, 7vw, 5rem);
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(2.6rem, 6vw, 4.5rem);
       color: var(--yellow);
       line-height: 1;
+      padding-right: 0.15em;
     }
-
     .footer-brand p {
-      font-family: 'Chomp', sans-serif;
       font-size: 0.9rem;
-      color: var(--cream);
-      margin-top: 15px;
-      opacity: 0.7;
+      margin-top: 14px;
+      opacity: 0.75;
       max-width: 350px;
-      line-height: 1.5;
+      line-height: 1.55;
     }
-
     .footer-links h4 {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: 1.2rem;
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: 1.15rem;
       color: var(--lime);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      padding-right: 0.12em;
     }
-
-    .footer-links ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
     .footer-links a {
-      font-family: 'Chomp', sans-serif;
-      font-size: 0.85rem;
-      color: var(--cream);
-      text-decoration: none;
-      opacity: 0.7;
-      transition: opacity 0.3s, color 0.3s, transform 0.3s;
+      font-size: 0.85rem; color: var(--cream);
+      text-decoration: none; opacity: 0.75;
+      transition: opacity .3s, color .3s, transform .3s;
       display: inline-block;
       text-transform: capitalize;
     }
-
-    .footer-links a:hover {
-      opacity: 1;
-      color: var(--yellow);
-      transform: translateX(5px);
-    }
+    .footer-links a:hover { opacity: 1; color: var(--yellow); transform: translateX(5px); }
 
     .footer-bottom {
-      position: relative;
-      z-index: 2;
+      position: relative; z-index: 2;
       text-align: center;
       margin-top: 60px;
-      padding-top: 30px;
+      padding-top: 28px;
       border-top: 1px solid rgba(243, 232, 204, 0.15);
     }
-
     .footer-bottom p {
-      font-family: 'Chomp', sans-serif;
       font-size: 0.75rem;
-      color: var(--cream);
-      opacity: 0.5;
+      opacity: 0.55;
       letter-spacing: 1px;
     }
 
     .footer-bg-text {
       position: absolute;
-      bottom: -20px;
-      left: 50%;
+      bottom: -40px; left: 50%;
       transform: translateX(-50%);
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: clamp(8rem, 20vw, 18rem);
+      font-family: 'Chomp Oblique', serif; font-style: italic;
+      font-size: clamp(7rem, 20vw, 18rem);
       color: rgba(255, 202, 38, 0.05);
       white-space: nowrap;
-      pointer-events: none;
-      user-select: none;
+      pointer-events: none; user-select: none;
+      padding-right: 0.15em;
     }
 
-    /* ---- SPLATTER DECORATIONS ---- */
-    .splatter {
-      position: absolute;
-      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-      pointer-events: none;
-      z-index: 0;
+    /* ---- FLOATING SHAPES ---- */
+    .floating-shapes {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+      overflow: hidden;
     }
+    .shape { position: absolute; border-radius: 50%; opacity: 0.07; }
 
     /* ---- RESPONSIVE ---- */
-    @media (max-width: 768px) {
-      nav .nav-links {
-        display: none;
-      }
+    @media (max-width: 900px) {
+      nav .nav-links { display: none; }
+      .hamburger { display: flex; }
 
-      .hamburger {
-        display: flex;
+      /* Disable horizontal pinned scroll on mobile — stack vertically instead */
+      .flavors-section { overflow: visible; }
+      .flavors-sticky {
+        position: static;
+        height: auto;
+        display: block;
       }
+      .flavors-track {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 clamp(20px, 4vw, 40px) 80px;
+        transform: none !important;
+      }
+      .flavor-item {
+        width: 100%;
+        height: auto;
+        min-height: 320px;
+      }
+      .flavors-section[data-desktop-height] { height: auto !important; }
 
       .footer-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
       }
-
-      .brew-cards {
-        grid-template-columns: 1fr;
-      }
-
-      .flavor-item {
-        width: 280px;
-        height: 350px;
-      }
-
-      .flavors-track {
-        padding: 0 30px;
-        gap: 20px;
-      }
+      .footer-brand { grid-column: 1 / -1; }
     }
 
-    /* ---- PAGE LOADER ---- */
-    .page-loader {
-      position: fixed;
-      inset: 0;
-      background: var(--orange);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
+    @media (max-width: 560px) {
+      .footer-content { grid-template-columns: 1fr; gap: 28px; }
+      .brew-cards { grid-template-columns: 1fr; }
+      .hero-bg-text { font-size: clamp(3.2rem, 22vw, 8rem); }
+      .marquee-track span, .marquee-track-2 span { padding: 0 20px; }
     }
 
-    .page-loader.done {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .loader-text {
-      font-family: 'Chomp Oblique', sans-serif;
-      font-style: italic;
-      font-size: clamp(3rem, 10vw, 8rem);
-      color: var(--yellow);
-      animation: loaderPulse 0.6s ease infinite alternate;
-    }
-
-    @keyframes loaderPulse {
-      from { transform: scale(1); opacity: 0.7; }
-      to { transform: scale(1.05); opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+      html { scroll-behavior: auto; }
     }
   </style>
 </head>
 <body>
 
-  <!-- PAGE LOADER -->
   <div class="page-loader" id="pageLoader">
     <span class="loader-text">Spill</span>
   </div>
 
-  <!-- CUSTOM CURSOR -->
-  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
-  <!-- FLOATING SHAPES -->
-  <div class="floating-shapes" id="floatingShapes"></div>
+  <div class="floating-shapes" id="floatingShapes" aria-hidden="true"></div>
 
-  <!-- NAVIGATION -->
-  <nav>
-    <a href="#" class="logo-nav">Spill</a>
+  <nav aria-label="Primary">
+    <a href="#hero" class="logo-nav" aria-label="Spill — Home">Spill</a>
     <ul class="nav-links">
       <li><a href="#brew">Our Brews</a></li>
       <li><a href="#flavors">Flavors</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="contact.html">Contact</a></li>
       <li><a href="#footer-policies">Policies</a></li>
     </ul>
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#brew" onclick="closeMobile()">Our Brews</a>
-    <a href="#flavors" onclick="closeMobile()">Flavors</a>
-    <a href="#contact" onclick="closeMobile()">Contact</a>
-    <a href="privacy-policy.html" onclick="closeMobile()">Privacy Policy</a>
-    <a href="shipping-returns.html" onclick="closeMobile()">Shipping & Returns</a>
-    <a href="refund-policy.html" onclick="closeMobile()">Refund Policy</a>
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Main menu">
+    <a href="#brew" data-close>Our Brews</a>
+    <a href="#flavors" data-close>Flavors</a>
+    <a href="contact.html" data-close>Contact</a>
+    <a href="privacy-policy.html" data-close>Privacy Policy</a>
+    <a href="shipping-returns.html" data-close>Shipping &amp; Returns</a>
+    <a href="refund-policy.html" data-close>Refund Policy</a>
   </div>
 
-  <!-- HERO -->
   <section class="hero" id="hero">
     <span class="hero-bg-text top">Spill Spill Spill</span>
     <span class="hero-bg-text bottom">Tea Tea Tea</span>
 
-    <div class="splatter" style="width:300px;height:300px;background:var(--yellow);opacity:0.12;top:10%;left:-5%;"></div>
-    <div class="splatter" style="width:200px;height:200px;background:var(--red);opacity:0.1;bottom:15%;right:5%;"></div>
-
     <div class="hero-center">
-      <img src="Spill.png" alt="Spill Tea Logo" class="hero-logo" id="heroLogo">
+      <img src="Spill.png" alt="Spill — Tea that hits different" class="hero-logo" id="heroLogo">
       <p class="hero-tagline" id="heroTagline">Tea That Hits Different</p>
     </div>
 
-    <div class="hero-scroll-hint">
+    <div class="hero-scroll-hint" aria-hidden="true">
       <span>Scroll Down</span>
       <div class="scroll-arrow"></div>
     </div>
   </section>
 
-  <!-- MARQUEE 1 -->
-  <div class="marquee-section">
+  <div class="marquee-section" aria-hidden="true">
     <div class="marquee-track">
-      <span>Bold &middot; Chaotic &middot; Brewed Wild &middot;</span>
-      <span>Sip &middot; Spill &middot; Repeat &middot;</span>
-      <span>Not Your Grandma's Tea &middot;</span>
-      <span>Bold &middot; Chaotic &middot; Brewed Wild &middot;</span>
-      <span>Sip &middot; Spill &middot; Repeat &middot;</span>
-      <span>Not Your Grandma's Tea &middot;</span>
+      <span>Bold · Chaotic · Brewed Wild ·</span>
+      <span>Sip · Spill · Repeat ·</span>
+      <span>Not Your Grandma&apos;s Tea ·</span>
+      <span>Bold · Chaotic · Brewed Wild ·</span>
+      <span>Sip · Spill · Repeat ·</span>
+      <span>Not Your Grandma&apos;s Tea ·</span>
     </div>
   </div>
 
-  <!-- WHAT WE BREW -->
   <section class="brew-section" id="brew">
     <h2 class="section-title">
       <span class="title-word" style="color: var(--red);">We</span>
@@ -966,24 +750,23 @@
 
     <div class="brew-cards">
       <div class="brew-card">
-        <span class="card-emoji">&#127861;</span>
+        <span class="card-emoji" aria-hidden="true">&#127861;</span>
         <h3>Brewed Fresh</h3>
-        <p>Every Cup Is A Riot Of Flavor, Steeped To Perfection</p>
+        <p>Every cup is a riot of flavor, steeped to perfection.</p>
       </div>
       <div class="brew-card">
-        <span class="card-emoji">&#127793;</span>
+        <span class="card-emoji" aria-hidden="true">&#127793;</span>
         <h3>Wild Sourced</h3>
-        <p>Leaves Picked From The Most Untamed Gardens</p>
+        <p>Leaves picked from the most untamed gardens.</p>
       </div>
       <div class="brew-card">
-        <span class="card-emoji">&#9889;</span>
+        <span class="card-emoji" aria-hidden="true">&#9889;</span>
         <h3>Zero Boring</h3>
-        <p>Life's Too Short For Dull Tea</p>
+        <p>Life&apos;s too short for dull tea.</p>
       </div>
     </div>
   </section>
 
-  <!-- BIG STATEMENT -->
   <section class="statement-section" id="statement">
     <div class="statement-accent a1"></div>
     <div class="statement-accent a2"></div>
@@ -994,69 +777,74 @@
     </div>
   </section>
 
-  <!-- HORIZONTAL SCROLL FLAVORS -->
-  <section class="flavors-section" id="flavors" style="height: 300vh;">
+  <section class="flavors-section" id="flavors" data-desktop-height>
+    <div class="flavors-header">
+      <h2>Five Flavors, Zero Rules</h2>
+      <p>Tap a card to meet the brew.</p>
+    </div>
     <div class="flavors-sticky">
       <div class="flavors-track" id="flavorsTrack">
-        <div class="flavor-item">
+        <a class="flavor-item" href="flavors/masala-mayhem.html">
           <span class="flavor-number">01</span>
           <h3>Masala Mayhem</h3>
-          <p>Spiced Chaos In Every Sip</p>
-        </div>
-        <div class="flavor-item">
+          <p>Spiced chaos in every sip.</p>
+          <span class="shop-cue">Shop</span>
+        </a>
+        <a class="flavor-item" href="flavors/mint-riot.html">
           <span class="flavor-number">02</span>
           <h3>Mint Riot</h3>
-          <p>Cool, Crisp, Unhinged</p>
-        </div>
-        <div class="flavor-item">
+          <p>Cool, crisp, unhinged.</p>
+          <span class="shop-cue">Shop</span>
+        </a>
+        <a class="flavor-item" href="flavors/ginger-snap.html">
           <span class="flavor-number">03</span>
           <h3>Ginger Snap</h3>
-          <p>Burns So Good</p>
-        </div>
-        <div class="flavor-item">
+          <p>Burns so good.</p>
+          <span class="shop-cue">Shop</span>
+        </a>
+        <a class="flavor-item" href="flavors/berry-burst.html">
           <span class="flavor-number">04</span>
           <h3>Berry Burst</h3>
-          <p>Fruity And Absolutely Feral</p>
-        </div>
-        <div class="flavor-item">
+          <p>Fruity and absolutely feral.</p>
+          <span class="shop-cue">Shop</span>
+        </a>
+        <a class="flavor-item" href="flavors/classic-chaos.html">
           <span class="flavor-number">05</span>
           <h3>Classic Chaos</h3>
-          <p>The Og, Reimagined</p>
-        </div>
+          <p>The OG, reimagined.</p>
+          <span class="shop-cue">Shop</span>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta-section" id="contact">
-    <div class="cta-spin"></div>
-    <div class="cta-big" id="ctaBig">Spill<br>It.</div>
-    <p class="cta-sub" id="ctaSub">Your Next Obsession Is One Sip Away</p>
+  <section class="cta-section" id="contact-cta">
+    <div class="cta-spin" aria-hidden="true"></div>
+    <div class="cta-big" id="ctaBig">Spill It.</div>
+    <p class="cta-sub" id="ctaSub">Your next obsession is one sip away.</p>
     <a href="contact.html" class="cta-button" id="ctaBtn">Get In Touch</a>
   </section>
 
-  <!-- MARQUEE 2 -->
-  <div class="marquee-section-2">
+  <div class="marquee-section-2" aria-hidden="true">
     <div class="marquee-track-2">
-      <span>Privacy Policy &middot;</span>
-      <span>Shipping & Returns &middot;</span>
-      <span>Refund Policy &middot;</span>
-      <span>Contact Us &middot;</span>
-      <span>Privacy Policy &middot;</span>
-      <span>Shipping & Returns &middot;</span>
-      <span>Refund Policy &middot;</span>
-      <span>Contact Us &middot;</span>
+      <span>Privacy Policy ·</span>
+      <span>Shipping &amp; Returns ·</span>
+      <span>Refund Policy ·</span>
+      <span>Contact Us ·</span>
+      <span>Privacy Policy ·</span>
+      <span>Shipping &amp; Returns ·</span>
+      <span>Refund Policy ·</span>
+      <span>Contact Us ·</span>
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer id="footer-policies">
-    <div class="footer-bg-text">Spill</div>
+    <div class="footer-bg-text" aria-hidden="true">Spill</div>
 
     <div class="footer-content">
       <div class="footer-brand">
         <h2>Spill</h2>
-        <p>Tea That's Bold, Chaotic, And Unapologetically Loud. We Don't Do Boring.</p>
+        <p>Tea that&apos;s bold, chaotic, and unapologetically loud. We don&apos;t do boring.</p>
       </div>
 
       <div class="footer-links">
@@ -1064,7 +852,18 @@
         <ul>
           <li><a href="#brew">Our Brews</a></li>
           <li><a href="#flavors">Flavors</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="flavors/masala-mayhem.html">Masala Mayhem</a></li>
+          <li><a href="flavors/mint-riot.html">Mint Riot</a></li>
+          <li><a href="flavors/ginger-snap.html">Ginger Snap</a></li>
+          <li><a href="flavors/berry-burst.html">Berry Burst</a></li>
+          <li><a href="flavors/classic-chaos.html">Classic Chaos</a></li>
         </ul>
       </div>
 
@@ -1072,7 +871,7 @@
         <h4>Policies</h4>
         <ul>
           <li><a href="privacy-policy.html">Privacy Policy</a></li>
-          <li><a href="shipping-returns.html">Shipping & Returns</a></li>
+          <li><a href="shipping-returns.html">Shipping &amp; Returns</a></li>
           <li><a href="refund-policy.html">Refund Policy</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
@@ -1080,253 +879,162 @@
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; 2026 Spill Tea Co. All Rights Reserved.</p>
+      <p>&copy; 2026 Spill Tea Co. All rights reserved.</p>
     </div>
   </footer>
 
-  <!-- GSAP + ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
-  <script>
-    // ---- PAGE LOADER ----
+  <script defer>
     window.addEventListener('load', () => {
       setTimeout(() => {
         document.getElementById('pageLoader').classList.add('done');
-        animateHero();
-      }, 800);
+        if (window.gsap) animateHero();
+      }, 600);
     });
 
-    // ---- CUSTOM CURSOR ----
+    // Cursor
     const cursorDot = document.getElementById('cursorDot');
-    let mouseX = 0, mouseY = 0;
+    let mx = 0, my = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function tick() {
+      cursorDot.style.transform = `translate(${mx - 7}px, ${my - 7}px)`;
+      requestAnimationFrame(tick);
+    })();
 
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    function updateCursor() {
-      cursorDot.style.left = mouseX - 7 + 'px';
-      cursorDot.style.top = mouseY - 7 + 'px';
-      requestAnimationFrame(updateCursor);
-    }
-    updateCursor();
-
-    if ('ontouchstart' in window) {
-      cursorDot.style.display = 'none';
-    }
-
-    // ---- FLOATING SHAPES ----
+    // Floating shapes
     const shapesContainer = document.getElementById('floatingShapes');
     const colors = ['#ffca26', '#f86015', '#d42518', '#19532b', '#9abc04'];
     for (let i = 0; i < 8; i++) {
-      const shape = document.createElement('div');
-      shape.classList.add('shape');
+      const s = document.createElement('div');
+      s.className = 'shape';
       const size = Math.random() * 300 + 100;
-      shape.style.width = size + 'px';
-      shape.style.height = size + 'px';
-      shape.style.background = colors[Math.floor(Math.random() * colors.length)];
-      shape.style.left = Math.random() * 100 + '%';
-      shape.style.top = Math.random() * 100 + '%';
-      shapesContainer.appendChild(shape);
+      s.style.cssText = `width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};left:${Math.random()*100}%;top:${Math.random()*100}%`;
+      shapesContainer.appendChild(s);
     }
-
     window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
+      const y = window.scrollY;
       document.querySelectorAll('.shape').forEach((s, i) => {
-        const speed = (i % 3 + 1) * 0.03;
-        s.style.transform = `translateY(${scrollY * speed}px)`;
+        s.style.transform = `translateY(${y * ((i % 3 + 1) * 0.03)}px)`;
       });
-    });
+    }, { passive: true });
 
-    // ---- HERO ANIMATION ----
-    function animateHero() {
-      gsap.to('#heroLogo', {
-        opacity: 1,
-        scale: 1,
-        duration: 1,
-        ease: 'back.out(1.7)',
-        delay: 0.2
-      });
-
-      gsap.to('#heroTagline', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        delay: 0.6
-      });
-    }
-
-    // ---- HERO PARALLAX ----
-    gsap.to('.hero-bg-text.top', {
-      scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1
-      },
-      x: 200,
-      ease: 'none'
-    });
-
-    gsap.to('.hero-bg-text.bottom', {
-      scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1
-      },
-      x: -200,
-      ease: 'none'
-    });
-
-    gsap.to('#heroLogo', {
-      scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1
-      },
-      y: -100,
-      scale: 0.8,
-      opacity: 0,
-      ease: 'none'
-    });
-
-    // ---- BREW SECTION - TITLE WORDS ----
-    gsap.utils.toArray('.title-word').forEach((word, i) => {
-      gsap.to(word, {
-        scrollTrigger: {
-          trigger: word,
-          start: 'top 85%',
-          end: 'top 60%',
-          scrub: 1
-        },
-        opacity: 1,
-        y: 0,
-        rotation: 0,
-        ease: 'power3.out'
-      });
-    });
-
-    // ---- BREW CARDS ----
-    gsap.utils.toArray('.brew-card').forEach((card, i) => {
-      const rotations = [-3, 2, -2];
-      gsap.to(card, {
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 85%',
-          end: 'top 55%',
-          scrub: 1
-        },
-        opacity: 1,
-        y: 0,
-        rotation: rotations[i % 3],
-        ease: 'power2.out'
-      });
-    });
-
-    // ---- STATEMENT LINES ----
-    gsap.utils.toArray('.statement-line').forEach((line, i) => {
-      gsap.to(line, {
-        scrollTrigger: {
-          trigger: line,
-          start: 'top 85%',
-          end: 'top 55%',
-          scrub: 1
-        },
-        opacity: 1,
-        x: 0,
-        ease: 'power3.out'
-      });
-    });
-
-    // ---- HORIZONTAL SCROLL FLAVORS ----
-    const flavorsTrack = document.getElementById('flavorsTrack');
-    const flavorsSection = document.querySelector('.flavors-section');
-
-    gsap.to(flavorsTrack, {
-      x: () => -(flavorsTrack.scrollWidth - window.innerWidth + 80),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: flavorsSection,
-        start: 'top top',
-        end: () => '+=' + (flavorsTrack.scrollWidth - window.innerWidth + 80),
-        scrub: 1,
-        pin: '.flavors-sticky',
-        anticipatePin: 1,
-        invalidateOnRefresh: true
-      }
-    });
-
-    // ---- CTA ANIMATION ----
-    gsap.to('#ctaBig', {
-      scrollTrigger: {
-        trigger: '.cta-section',
-        start: 'top 70%',
-        end: 'top 30%',
-        scrub: 1
-      },
-      opacity: 1,
-      scale: 1,
-      ease: 'power3.out'
-    });
-
-    gsap.to('#ctaSub', {
-      scrollTrigger: {
-        trigger: '.cta-section',
-        start: 'top 60%',
-        end: 'top 30%',
-        scrub: 1
-      },
-      opacity: 1,
-      ease: 'power2.out'
-    });
-
-    gsap.to('#ctaBtn', {
-      scrollTrigger: {
-        trigger: '.cta-section',
-        start: 'top 50%',
-        end: 'top 25%',
-        scrub: 1
-      },
-      opacity: 1,
-      ease: 'power2.out'
-    });
-
-    // ---- HAMBURGER MENU ----
+    // Hamburger
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
-
     hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      mobileMenu.classList.toggle('open');
-      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+      const open = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('active', open);
+      hamburger.setAttribute('aria-expanded', String(open));
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('[data-close]').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
     });
 
-    function closeMobile() {
-      hamburger.classList.remove('active');
-      mobileMenu.classList.remove('open');
-      document.body.style.overflow = '';
+    // Hero mouse tilt (desktop only)
+    if (matchMedia('(hover: hover)').matches) {
+      const heroLogo = document.getElementById('heroLogo');
+      const hero = document.querySelector('.hero');
+      hero.addEventListener('mousemove', e => {
+        const r = heroLogo.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / 30;
+        const dy = (e.clientY - (r.top + r.height / 2)) / 30;
+        heroLogo.style.transform = `perspective(600px) rotateY(${dx}deg) rotateX(${-dy}deg)`;
+      });
+      hero.addEventListener('mouseleave', () => {
+        heroLogo.style.transform = 'perspective(600px) rotateY(0deg) rotateX(0deg)';
+      });
     }
 
-    // ---- LOGO TILT ON MOUSE ----
-    const heroLogo = document.getElementById('heroLogo');
-    document.querySelector('.hero').addEventListener('mousemove', (e) => {
-      const rect = heroLogo.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const deltaX = (e.clientX - centerX) / 30;
-      const deltaY = (e.clientY - centerY) / 30;
-      heroLogo.style.transform = `perspective(600px) rotateY(${deltaX}deg) rotateX(${-deltaY}deg)`;
-    });
+    function animateHero() {
+      gsap.fromTo('#heroLogo',
+        { opacity: 0, scale: 0.85 },
+        { opacity: 1, scale: 1, duration: 1, ease: 'back.out(1.7)', delay: 0.2 });
+      gsap.to('#heroTagline', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.6 });
+    }
 
-    document.querySelector('.hero').addEventListener('mouseleave', () => {
-      heroLogo.style.transform = 'perspective(600px) rotateY(0deg) rotateX(0deg)';
+    // ScrollTrigger wiring (only after libs load)
+    window.addEventListener('load', () => {
+      if (!window.gsap || !window.ScrollTrigger) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      gsap.to('.hero-bg-text.top', { scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }, x: 200 });
+      gsap.to('.hero-bg-text.bottom', { scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }, x: -200 });
+
+      gsap.utils.toArray('.title-word').forEach(word => {
+        gsap.to(word, {
+          scrollTrigger: { trigger: word, start: 'top 85%', end: 'top 60%', scrub: 1 },
+          opacity: 1, y: 0, rotation: 0, ease: 'power3.out'
+        });
+      });
+
+      gsap.utils.toArray('.brew-card').forEach((card, i) => {
+        const rot = [-3, 2, -2][i % 3];
+        gsap.to(card, {
+          scrollTrigger: { trigger: card, start: 'top 85%', end: 'top 55%', scrub: 1 },
+          opacity: 1, y: 0, rotation: rot, ease: 'power2.out'
+        });
+      });
+
+      gsap.utils.toArray('.statement-line').forEach(line => {
+        gsap.to(line, {
+          scrollTrigger: { trigger: line, start: 'top 85%', end: 'top 55%', scrub: 1 },
+          opacity: 1, x: 0, ease: 'power3.out'
+        });
+      });
+
+      gsap.to('#ctaBig', { scrollTrigger: { trigger: '.cta-section', start: 'top 70%', end: 'top 30%', scrub: 1 }, opacity: 1, scale: 1, ease: 'power3.out' });
+      gsap.to('#ctaSub', { scrollTrigger: { trigger: '.cta-section', start: 'top 60%', end: 'top 30%', scrub: 1 }, opacity: 1 });
+      gsap.to('#ctaBtn', { scrollTrigger: { trigger: '.cta-section', start: 'top 50%', end: 'top 25%', scrub: 1 }, opacity: 1 });
+
+      // Horizontal flavors pinned scroll — desktop only
+      const mm = matchMedia('(min-width: 901px)');
+      let flavorScroll;
+      function buildFlavorScroll() {
+        const track = document.getElementById('flavorsTrack');
+        const section = document.querySelector('.flavors-section');
+        if (!track || !section) return;
+        // Dynamic height so pin scroll feels right
+        const trackWidth = track.scrollWidth;
+        const overflow = trackWidth - window.innerWidth + 80;
+        section.style.height = `calc(100vh + ${Math.max(overflow, 0)}px + 40vh)`;
+        flavorScroll = gsap.to(track, {
+          x: -overflow,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: () => `+=${overflow}`,
+            scrub: 1,
+            pin: '.flavors-sticky',
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          }
+        });
+      }
+      function destroyFlavorScroll() {
+        if (flavorScroll) { flavorScroll.scrollTrigger?.kill(); flavorScroll.kill(); flavorScroll = null; }
+        const section = document.querySelector('.flavors-section');
+        if (section) section.style.height = '';
+        const track = document.getElementById('flavorsTrack');
+        if (track) track.style.transform = '';
+      }
+      function apply() {
+        destroyFlavorScroll();
+        if (mm.matches) buildFlavorScroll();
+        ScrollTrigger.refresh();
+      }
+      apply();
+      mm.addEventListener('change', apply);
+      window.addEventListener('resize', () => ScrollTrigger.refresh(), { passive: true });
     });
   </script>
-
 </body>
 </html>
