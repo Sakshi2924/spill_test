@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Lint, audit, syntax-check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node from .nvmrc
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install deps (production tree only for audit)
+        run: npm ci --omit=optional
+
+      - name: Syntax-check server files
+        run: |
+          for f in server/*.js scripts/*.js; do
+            echo "checking $f"
+            node -c "$f"
+          done
+
+      - name: Validate HTML links (basic)
+        run: |
+          # fail the build if any <link href=...> points at a missing file
+          node -e '
+            const fs = require("fs");
+            const path = require("path");
+            const files = ["index.html","contact.html","privacy-policy.html","shipping-returns.html","refund-policy.html","terms.html"];
+            for (const dir of ["flavors"]) for (const f of fs.readdirSync(dir)) files.push(path.join(dir, f));
+            let ok = true;
+            for (const f of files) {
+              const html = fs.readFileSync(f, "utf8");
+              const refs = [...html.matchAll(/(?:href|src)="([^"#?:]+?)"/g)].map(m => m[1]).filter(u => !u.startsWith("http") && !u.startsWith("//") && !u.startsWith("data:") && !u.startsWith("mailto:"));
+              for (const r of refs) {
+                const resolved = path.resolve(path.dirname(f), decodeURIComponent(r));
+                if (!fs.existsSync(resolved) && !fs.existsSync(resolved.split("#")[0].split("?")[0])) {
+                  console.error("[missing]", f, "->", r);
+                  ok = false;
+                }
+              }
+            }
+            if (!ok) process.exit(1);
+            console.log("All local references resolve.");
+          '
+
+      - name: npm audit (high and above fail the build)
+        run: npm audit --omit=dev --audit-level=high
+
+  codeql:
+    name: CodeQL static analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+      - uses: github/codeql-action/analyze@v3
