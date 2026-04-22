@@ -11,7 +11,8 @@ const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
 const rateLimit = require('express-rate-limit');
 
-const { requireAuth, attachCsrf, verifyCsrfOrigin } = require('./auth');
+const { attachCsrf, verifyCsrfOrigin } = require('./auth');
+const { requestLogger, log } = require('./logger');
 const adminRouter = require('./admin');
 const publicApiRouter = require('./public-api');
 
@@ -26,20 +27,23 @@ if (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 32) {
   process.exit(1);
 }
 
-// Trust proxy when behind Nginx/Cloudflare so secure cookies and req.ip work.
 if (process.env.TRUST_PROXY) app.set('trust proxy', Number(process.env.TRUST_PROXY) || 1);
 
 app.disable('x-powered-by');
+
+// Request logger first — captures every request including 4xx/5xx from later middleware.
+app.use(requestLogger);
 
 // --- SECURITY HEADERS ---
 app.use(helmet({
   contentSecurityPolicy: {
     useDefaults: true,
     directives: {
-      // GSAP loads from cdnjs; everything else is self-hosted.
       'default-src': ["'self'"],
       'script-src': ["'self'", 'https://cdnjs.cloudflare.com'],
-      'style-src': ["'self'", "'unsafe-inline'"], // inline <style> blocks in existing HTML
+      // 'unsafe-inline' for style kept as a known trade-off — legacy pages have inline <style>.
+      // See SECURITY.md for the plan to externalise and drop this.
+      'style-src': ["'self'", "'unsafe-inline'"],
       'img-src': ["'self'", 'data:', 'blob:'],
       'font-src': ["'self'", 'data:'],
       'connect-src': ["'self'"],
@@ -50,7 +54,7 @@ app.use(helmet({
       'upgrade-insecure-requests': IS_PROD ? [] : null,
     },
   },
-  crossOriginEmbedderPolicy: false, // avoid breaking fonts across origins
+  crossOriginEmbedderPolicy: false,
   referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
   hsts: IS_PROD ? { maxAge: 63072000, includeSubDomains: true, preload: true } : false,
 }));
@@ -71,7 +75,7 @@ app.use(session({
     httpOnly: true,
     sameSite: 'strict',
     secure: process.env.COOKIE_SECURE === 'true' || IS_PROD,
-    maxAge: 1000 * 60 * 60 * 8, // 8 hours
+    maxAge: 1000 * 60 * 60 * 8,
   },
 }));
 
@@ -84,9 +88,14 @@ app.use(rateLimit({
   message: { error: 'Too many requests. Slow down.' },
 }));
 
-// --- CSRF / ORIGIN CHECKS on unsafe methods ---
+// --- CSRF / ORIGIN CHECKS ---
 app.use(verifyCsrfOrigin(PUBLIC_ORIGIN));
 app.use(attachCsrf);
+
+// --- HEALTHZ (public, cheap) ---
+app.get('/healthz', (req, res) => {
+  res.json({ ok: true, uptime: Math.round(process.uptime()), now: Date.now() });
+});
 
 // --- PUBLIC READ API ---
 app.use('/api', publicApiRouter);
@@ -95,14 +104,14 @@ app.use('/api', publicApiRouter);
 app.use('/admin', adminRouter);
 
 // --- STATIC FILES ---
-// Served after API/admin so routes take precedence.
 const STATIC_OPTS = {
   maxAge: IS_PROD ? '1h' : 0,
   dotfiles: 'ignore',
   index: 'index.html',
   setHeaders: (res, filePath) => {
-    if (filePath.endsWith('.html')) {
-      res.setHeader('Cache-Control', 'no-cache');
+    if (filePath.endsWith('.html')) res.setHeader('Cache-Control', 'no-cache');
+    if (filePath.endsWith('robots.txt') || filePath.endsWith('sitemap.xml')) {
+      res.setHeader('Cache-Control', 'public, max-age=3600');
     }
   },
 };
@@ -118,10 +127,19 @@ app.use((req, res) => {
 // --- ERROR HANDLER ---
 app.use((err, req, res, next) => {
   const status = err.status || 500;
-  if (status >= 500) console.error('[error]', err);
+  if (status >= 500) log.error('unhandled', { err: err.message, stack: err.stack, path: req.originalUrl });
   res.status(status).json({ error: err.publicMessage || (status < 500 ? err.message : 'Server error') });
 });
 
-app.listen(PORT, () => {
-  console.log(`Spill running at ${PUBLIC_ORIGIN} (env=${IS_PROD ? 'production' : 'development'})`);
+const server = app.listen(PORT, () => {
+  log.info('listening', { url: PUBLIC_ORIGIN, env: IS_PROD ? 'production' : 'development', port: PORT });
 });
+
+// Graceful shutdown so systemd can restart us cleanly.
+function shutdown(sig) {
+  log.info('shutdown', { sig });
+  server.close(() => process.exit(0));
+  setTimeout(() => process.exit(1), 10000).unref();
+}
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT',  () => shutdown('SIGINT'));
