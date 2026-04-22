@@ -16,27 +16,47 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Privacy Policy — Spill">
   <meta name="twitter:image" content="https://spilltea.com/Spill.png">
-  <link rel="icon" href="Spill.png" type="image/png">
-  <link rel="stylesheet" href="assets/inner.css">
-  <link rel="stylesheet" href="assets/cookie-consent.css">
-  <script src="assets/cookie-consent.js" defer></script>
+  <link rel="icon" href="/Spill.png" type="image/png">
+  <link rel="stylesheet" href="/assets/inner.css">
+  <link rel="stylesheet" href="/assets/cookie-consent.css">
+  <script src="/assets/nav.js" defer></script>
+  <script src="/assets/cookie-consent.js" defer></script>
   <style>
+    nav[aria-label="Primary"] { background: var(--green); color: var(--cream); }
+    nav[aria-label="Primary"] .logo-nav { color: var(--yellow); }
+    nav[aria-label="Primary"] .nav-links a { color: var(--cream); }
+    .hamburger span { background: var(--cream); }
     .page-header { background: var(--green); }
     .page-header h1 { color: var(--yellow); }
     .page-header .bg-accent { color: rgba(255,202,38,0.06); }
     .page-header::after { background: linear-gradient(to bottom, var(--green), var(--cream)); }
-    nav { background: var(--green); }
-    nav a.logo-nav { color: var(--yellow); }
-    nav a.back-link { color: var(--cream); }
     .content h2 { color: var(--red); }
     .content a.inline { color: var(--orange); text-decoration: underline; word-break: break-word; }
   </style>
 </head>
 <body>
   <nav aria-label="Primary">
-    <a href="index.html" class="logo-nav">Spill</a>
-    <a href="index.html" class="back-link">&larr; Back to home</a>
+    <a href="/" class="logo-nav">Spill</a>
+    <ul class="nav-links">
+      <li><a href="/#brew">Our Brews</a></li>
+      <li><a href="/#flavours">Flavours</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+      <li><a href="/#footer-policies">Policies</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Main menu">
+    <a href="/#brew" data-close>Our Brews</a>
+    <a href="/#flavours" data-close>Flavours</a>
+    <a href="/contact.html" data-close>Contact</a>
+    <a href="/privacy-policy.html" data-close>Privacy Policy</a>
+    <a href="/shipping-returns.html" data-close>Shipping &amp; Returns</a>
+    <a href="/refund-policy.html" data-close>Refund Policy</a>
+    <a href="/terms.html" data-close>Terms</a>
+  </div>
 
   <header class="page-header">
     <h1>Privacy Policy</h1>
@@ -50,7 +70,7 @@
     <p>When you interact with Spill we may collect your name, email address, shipping address, and payment information necessary to process your orders. We also collect basic technical information (IP address, browser, device) for security and analytics.</p>
 
     <h2>How We Use It</h2>
-    <p>Your information helps us fulfill orders, improve our products, and keep you updated on new brews. We never sell your data to third parties.</p>
+    <p>Your information helps us fulfil orders, improve our products, and keep you updated on new brews. We never sell your data to third parties.</p>
 
     <h2>Cookies</h2>
     <p>We use cookies to enhance your browsing experience, remember your preferences, and understand how you interact with our site. You can disable cookies in your browser settings; some parts of the site may not function without them.</p>
@@ -65,7 +85,7 @@
     <p>You can request access to, correction of, or deletion of your personal data at any time by contacting us.</p>
 
     <h2>Contact</h2>
-    <p>Questions about your privacy? Reach us at <a class="inline" href="mailto:hello@spilltea.com">hello@spilltea.com</a>.</p>
+    <p>Questions about your privacy? Reach us at <a class="inline" href="mailto:hello@spillnow.in">hello@spillnow.in</a>.</p>
   </main>
 
   <footer class="site-footer">
