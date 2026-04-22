@@ -16,27 +16,47 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Terms of Service — Spill">
   <meta name="twitter:image" content="https://spilltea.com/Spill.png">
-  <link rel="icon" href="Spill.png" type="image/png">
-  <link rel="stylesheet" href="assets/inner.css">
-  <link rel="stylesheet" href="assets/cookie-consent.css">
-  <script src="assets/cookie-consent.js" defer></script>
+  <link rel="icon" href="/Spill.png" type="image/png">
+  <link rel="stylesheet" href="/assets/inner.css">
+  <link rel="stylesheet" href="/assets/cookie-consent.css">
+  <script src="/assets/nav.js" defer></script>
+  <script src="/assets/cookie-consent.js" defer></script>
   <style>
+    nav[aria-label="Primary"] { background: var(--yellow); color: var(--green); }
+    nav[aria-label="Primary"] .logo-nav { color: var(--green); }
+    nav[aria-label="Primary"] .nav-links a { color: var(--green); }
+    .hamburger span { background: var(--green); }
     .page-header { background: var(--yellow); }
     .page-header h1 { color: var(--green); }
     .page-header .bg-accent { color: rgba(25,83,43,0.08); }
     .page-header::after { background: linear-gradient(to bottom, var(--yellow), var(--cream)); }
-    nav { background: var(--yellow); }
-    nav a.logo-nav { color: var(--green); }
-    nav a.back-link { color: var(--green); }
     .content h2 { color: var(--green); }
     .content a.inline { color: var(--orange); text-decoration: underline; word-break: break-word; }
   </style>
 </head>
 <body>
   <nav aria-label="Primary">
-    <a href="index.html" class="logo-nav">Spill</a>
-    <a href="index.html" class="back-link">&larr; Back to home</a>
+    <a href="/" class="logo-nav">Spill</a>
+    <ul class="nav-links">
+      <li><a href="/#brew">Our Brews</a></li>
+      <li><a href="/#flavours">Flavours</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+      <li><a href="/#footer-policies">Policies</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Main menu">
+    <a href="/#brew" data-close>Our Brews</a>
+    <a href="/#flavours" data-close>Flavours</a>
+    <a href="/contact.html" data-close>Contact</a>
+    <a href="/privacy-policy.html" data-close>Privacy Policy</a>
+    <a href="/shipping-returns.html" data-close>Shipping &amp; Returns</a>
+    <a href="/refund-policy.html" data-close>Refund Policy</a>
+    <a href="/terms.html" data-close>Terms</a>
+  </div>
 
   <header class="page-header">
     <h1>Terms of Service</h1>
@@ -62,7 +82,7 @@
     <p>If you send us feedback, reviews, or suggestions, you grant us a non-exclusive licence to use that content in connection with our products. Don&apos;t send anything you don&apos;t want us to use.</p>
 
     <h2>Acceptable Use</h2>
-    <p>Don&apos;t try to break into accounts, scrape the site aggressively, probe for vulnerabilities without permission, or use the service for anything illegal. Responsible security disclosures are welcome at <a class="inline" href="mailto:security@spilltea.com">security@spilltea.com</a>.</p>
+    <p>Don&apos;t try to break into accounts, scrape the site aggressively, probe for vulnerabilities without permission, or use the service for anything illegal. Responsible security disclosures are welcome at <a class="inline" href="mailto:security@spillnow.in">security@spillnow.in</a>.</p>
 
     <h2>Warranties and Liability</h2>
     <p>The site is provided &quot;as is&quot;. To the fullest extent allowed by law, we disclaim implied warranties and limit liability to the amount you paid in the 12 months before the claim.</p>
@@ -74,7 +94,7 @@
     <p>These terms are governed by the laws of India. Disputes are subject to the courts of Bangalore, Karnataka.</p>
 
     <h2>Contact</h2>
-    <p>Questions? Email <a class="inline" href="mailto:hello@spilltea.com">hello@spilltea.com</a>.</p>
+    <p>Questions? Email <a class="inline" href="mailto:hello@spillnow.in">hello@spillnow.in</a>.</p>
   </main>
 
   <footer class="site-footer">
